@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5174 --strictPort",
-    "build": "vite build",
+    "build": "vite build && node scripts/size.mjs",
     "preview": "vite preview --port 5174 --strictPort",
     "mock-agent": "node mock-agent/server.mjs",
     "size": "node scripts/size.mjs",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "serve": "node scripts/serve-dist.mjs 5174"
   },
   "dependencies": {
     "@magaza/contracts": "workspace:*"
@@ -19,6 +20,8 @@
     "happy-dom": "^18.0.1",
     "typescript": "~5.9.2",
     "vite": "^6.3.5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
   }
 }

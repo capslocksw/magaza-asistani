@@ -8,7 +8,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | M1 Sözleşmeler | ✅ | `make contracts` 42 tip üretir; vitest 26 + pytest 38 sözleşme testi; tsc + mypy temiz |
 | M2 Demo veri | ✅ | `make data` → yapi-market 329 SKU/40 föy, ambalaj 123 SKU/15 föy (PDF); veri doğrulama testi 26 passed |
 | M3 Demo vitrin | ✅ | Playwright 8 passed (2 marka × masaüstü/mobil); Lighthouse a11y 95–100; ekran görüntüleri `artifacts/screenshots/m3/` |
-| M4 Widget | ⏳ | |
+| M4 Widget | ✅ | widget.js 8,4 KB gzip (<60 KB); vitest 14 passed; Playwright widget 8 passed (iki vitrin × masaüstü/mobil) |
 | M5 Agent servisi | ⏳ | |
 | M6 Yönetim paneli | ⏳ | |
 | M7 Kapanış | ⏳ | |
@@ -85,6 +85,24 @@ Lighthouse erişilebilirlik (lighthouse 12.8.2, Playwright Chromium): yapi-marke
   /urun/YM-YAP-0001/ 100, /odeme/ 100; ambalaj / 96, /kategori/koli-cift-oluklu/ 95, /urun/KC-COK-0009/ 97
   (kalan kontrast/başlık uyarıları sonradan düzeltildi; JSON: artifacts/lighthouse/)
 vitest apps/demo-store → 5 passed (arama, sıralama, filtre, fiyat yardımcıları)
+```
+
+## M4 — Widget ✅
+
+- `apps/widget`: framework'süz Web Component `<magaza-asistani>` + Shadow DOM, Vite IIFE build → `dist/widget.js`. Gömme: `<script src=".../widget.js" data-tenant="pk_..." data-api="..." async>`.
+- Başlatıcı buton, sohbet paneli (masaüstünde yan panel, ≤640px tam ekran), fetch+ReadableStream ile SSE akışlı yazım (`@magaza/contracts` `SseParser`), güvenli zengin metin (önce HTML kaçışı; kalın, liste, SKU çipi), ürün kartları ("Sepete ekle"), paket kartı ("Paketi sepete ekle"), "📄 föye göre" kaynak etiketleri, beğen/beğenme, teklif formu (yalnızca `actions.quote_request` açık tenant'ta; ambalaj), tenant temasından renk/logo/karşılama/önerilen sorular; tenant rengi beyaz metinle AA kontrastı tutmuyorsa otomatik koyulaştırılır.
+- Vitrin entegrasyonu: `window` üzerinde `ma:add-to-cart` (`AddToCartDetail`) yayar, `ma:ready/ma:open/ma:close`; `window.MagazaAsistani.{open, close, trackOrder}`. Analitik istemci olayları: visit, widget_open, add_to_cart, feedback, order (`assisted`, `group` ile).
+- Holdout: sunucu ziyaretçiyi deterministik olarak (`sha256(tenant:visitor) % 100 < holdout_pct`) kontrol grubuna atar; kontrol grubunda widget görünmez ama `visit` ve `order` izlenir.
+- `mock-agent` (`apps/widget/mock-agent/server.mjs`): `AGENT_URL` yokken kullanılan, gerçek demo kataloğunu okuyan senaryolu ajan; agent-api ile aynı uçlar (`/v1/t/{pk}/config|chat|events|quotes`), sözleşmeye uygun SSE (ajv ile test edildi).
+- Kanıt:
+```
+$ pnpm --filter @magaza/widget build → "widget.js: 23.8 KB raw, 8.4 KB gzip (limit 60 KB)"
+$ vitest apps/widget → 14 passed (zengin metin/XSS kaçışı, kontrast, happy-dom'da tam tur: kartlar + paket → ma:add-to-cart,
+  feedback, trackOrder assisted=true, kontrol grubunda gizli, hata mesajı; mock-agent olayları SseEvent şemasına uygun)
+$ E2E_SUITES=widget pnpm exec playwright test e2e/widget.spec.ts → 8 passed
+  iki vitrin × masaüstü/mobil: widget aç → mesaj → kartlar → paketi sepete ekle → vitrin sepet sayacı = paket kalemi sayısı
+  → ödeme → sipariş mock-agent'a assisted=true ile ulaşır; ambalaj teklif formu; holdout ziyaretçide widget yok
+Ekran görüntüleri: artifacts/screenshots/m4/
 ```
 
 ## Kalan işler
