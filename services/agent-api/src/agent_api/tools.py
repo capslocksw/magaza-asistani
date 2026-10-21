@@ -149,6 +149,7 @@ class ToolBox:
                     "result_count": len(results),
                     "skus": [p.sku for p in results],
                     "zero_result": not results,
+                    "out_of_stock_skus": [h.product.sku for h in ranked[:6] if h.product.stock <= 0],
                 },
             )
             return {"count": len(results), "products": [brief(p) for p in results]}

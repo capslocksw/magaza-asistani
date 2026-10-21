@@ -36,10 +36,15 @@ def read_feed(source: str) -> str:
 
 
 async def sync_feed(
-    db: AsyncClient, ctx: TenantContext, embedder: Embedder, *, source: str | None = None
+    db: AsyncClient,
+    ctx: TenantContext,
+    embedder: Embedder,
+    *,
+    source: str | None = None,
+    job_id: str | None = None,
 ) -> dict[str, Any]:
     started = time.perf_counter()
-    job_id = f"feed-{uuid.uuid4().hex[:10]}"
+    job_id = job_id or f"feed-{uuid.uuid4().hex[:10]}"
     jobs = SyncJobRepo(db, ctx)
     await jobs.record(
         job_id, {"kind": "feed_sync", "status": "running", "started_at": datetime.now(UTC).isoformat()}

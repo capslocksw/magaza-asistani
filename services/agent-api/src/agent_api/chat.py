@@ -240,6 +240,8 @@ async def run_turn(deps: Deps, ctx: TenantContext, req: ChatRequest) -> AsyncIte
             "sources": [s.doc_id for s in sources],
             "dont_know": any(fold(p) in folded for p in DONT_KNOW),
             "unmet": bool(turn.zero_result_queries) and not shown,
+            "unmet_reason": "not_in_catalog" if turn.zero_result_queries and not shown else None,
+            "unmet_query": turn.zero_result_queries[0] if turn.zero_result_queries and not shown else None,
             "zero_result_queries": turn.zero_result_queries,
             "guardrails": turn.guardrails,
             "topic": topic,

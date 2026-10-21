@@ -10,7 +10,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | M3 Demo vitrin | ✅ | Playwright 8 passed (2 marka × masaüstü/mobil); Lighthouse a11y 95–100; ekran görüntüleri `artifacts/screenshots/m3/` |
 | M4 Widget | ✅ | widget.js 8,4 KB gzip (<60 KB); vitest 14 passed; Playwright widget 8 passed (iki vitrin × masaüstü/mobil) |
 | M5 Agent servisi | ✅ | pytest 102 passed (emulator: çapraz-tenant sızıntı, grounding, oturum servisi, CORS/teklif); Playwright widget→gerçek agent 4 passed; `make eval` 2×30 vaka PASS |
-| M6 Yönetim paneli | ⏳ | |
+| M6 Yönetim paneli | ✅ | 90 günlük sentetik fixture (147.722 olay); admin-api pytest 7 passed; Playwright admin 6 passed (9 sayfa + CSV + PDF indirme); ekran görüntüleri `artifacts/screenshots/m6/` |
 | M7 Kapanış | ⏳ | |
 
 ## M0 — Repo iskeleti ✅
@@ -128,6 +128,25 @@ $ uv run pytest -q (emulator) → 102 passed
 $ E2E_SUITES=agent pnpm exec playwright test e2e/agent.spec.ts → 4 passed (widget → gerçek agent-api, FakeLlm; ekran: artifacts/screenshots/m5/)
 $ make eval (LLM_MODE=fake) → ambalaj-golden traj 1.0 / resp 0.611 PASS; yapi-market-golden traj 1.0 / resp 0.581 PASS
 Gerçek Gemini ile uçtan uca test: bekliyor (OPEN_QUESTIONS #1).
+```
+
+## M6 — Yönetim paneli ✅
+
+- `services/jobs/.../simulator.py` (`make fixture`): iki tenant için 90 günlük gerçekçi sentetik ziyaretçi yolculuğu (`is_synthetic=true`) → `data/analytics/fixture.duckdb` (`analytics_events`, AnalyticsEvent kolonları + JSON payload): holdout grubu, widget açma, çok turlu konuşmalar (yükselen konu), araç çağrıları, sıfır sonuç, katalog dışı/stok dışı talep, guardrail, paket önerisi, sepete ekleme, beğeni, teklif, asistanlı/asistansız sipariş.
+- `services/admin-api`:
+  - Firebase Auth ID token doğrulaması; `DEV_AUTH_BYPASS=1` yalnızca yerelde (Cloud Run'da `K_SERVICE` varken reddedilir). Tenant erişimi kullanıcının yetkili tenant'larıyla doğrulanır.
+  - Tenant CRUD, persona şablonları, katalog senkron tetikleme (arka plan iş + durum), widget kodu, konuşma listesi/detayı.
+  - `AnalyticsRepository`: `DuckDbAnalyticsRepository` (fixture + yerel canlı JSONL) ve `BigQueryAnalyticsRepository`; panolar tek bir SQL üreticisiyle iki lehçede (DuckDB/BigQuery) yazıldı.
+  - 7 pano ucu (`/dashboards/{executive|funnel|demand|unmet|products|quality|usage}`), `/billing` (tenant/ay), 12 CSV veri seti (UTF-8 BOM, `,` veya `;` — `;` seçilince ondalık virgül), aylık PDF raporu (tenant logolu; WeasyPrint/Chromium, ADR 003).
+- `apps/admin-web` (React 19 + Vite + Tailwind 4 + shadcn tarzı bileşenler + TanStack Query/Table + ECharts): giriş, tenant seçici, tarih aralığı (7/30/90 gün + özel), 7 pano, konuşma gezgini (detay çekmecesi), ayarlar (persona editörü, izinli domain'ler, widget kodu kopyalama, holdout % kaydırıcı, aksiyonlar, katalog senkronu), her tablo/grafikte "CSV indir", üst barda "Aylık raporu PDF indir".
+- Kanıt:
+```
+$ make fixture → {"events": 147722, "by_tenant": {"ambalaj": 39466, "yapi-market": 108256}, "days": 90, "seconds": 2.4}
+$ uv run pytest -q services/admin-api → 7 passed (7 pano DuckDB'de, BigQuery SQL lehçesi, HTTP + CSV BOM/`;` + PDF,
+  erişim kontrolü [tenant_admin başka tenant'a 403], auth bypass Cloud Run'da kapalı)
+$ E2E_SUITES=admin pnpm exec playwright test e2e/admin.spec.ts → 6 passed
+  [desktop|mobile]: 9 sayfa açılır + ambalaj'a geçiş; CSV indir (BOM + başlık doğrulandı); aylık PDF indir (%PDF-); konuşma detayı
+Ekran görüntüleri: artifacts/screenshots/m6/01..11-*-{desktop,mobile}.png (gözden geçirildi; rapor ayı seçicisi genişletildi)
 ```
 
 ## Kalan işler

@@ -18,7 +18,7 @@ setup: ## Install dependencies (uv, pnpm), Playwright browsers, Firestore emulat
 	$(PNPM) exec playwright install chromium
 	$(UV) run playwright install chromium
 	@ls $$HOME/.cache/firebase/emulators/cloud-firestore-emulator-*.jar >/dev/null 2>&1 || $(PNPM) exec firebase setup:emulators:firestore
-	$(MAKE) data
+	$(MAKE) data fixture
 
 check: lint typecheck test ## Lint, type-check and unit tests (Python + TS)
 
