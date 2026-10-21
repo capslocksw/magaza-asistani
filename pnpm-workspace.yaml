@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/contracts
+onlyBuiltDependencies:
+  - "@tailwindcss/oxide"
+  - esbuild
+  - sharp
+  - unrs-resolver
+  - re2
+  - protobufjs

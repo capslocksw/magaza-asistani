@@ -1,0 +1,68 @@
+[project]
+name = "magaza-asistani"
+version = "0.1.0"
+description = "Mağaza Asistanım monorepo (uv workspace root)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "magaza-core",
+  "magaza-agent-api",
+  "magaza-admin-api",
+  "magaza-jobs",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "pytest-asyncio>=1.0",
+  "httpx>=0.28",
+  "ruff>=0.12",
+  "mypy>=1.16",
+  "datamodel-code-generator>=0.31",
+  "jsonschema>=4.23",
+  "types-PyYAML",
+  "types-Markdown",
+  "types-jsonschema",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/core-py", "services/agent-api", "services/admin-api", "services/jobs"]
+
+[tool.uv.sources]
+magaza-core = { workspace = true }
+magaza-agent-api = { workspace = true }
+magaza-admin-api = { workspace = true }
+magaza-jobs = { workspace = true }
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["packages/core-py/src/magaza_core/contracts/generated.py", "node_modules", "apps", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "ASYNC"]
+# Turkish user-facing strings legitimately contain characters ruff flags as ambiguous.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["magaza_core", "agent_api", "admin_api", "magaza_jobs"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["packages/core-py/src", "services/agent-api/src", "services/admin-api/src", "services/jobs/src"]
+plugins = ["pydantic.mypy"]
+disallow_untyped_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib -p no:cacheprovider"
+testpaths = ["packages/core-py/tests", "services/agent-api/tests", "services/admin-api/tests", "services/jobs/tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]

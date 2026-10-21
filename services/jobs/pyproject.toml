@@ -1,0 +1,19 @@
+[project]
+name = "magaza-jobs"
+version = "0.1.0"
+description = "feed-sync, doc-ingest, conversation-labeler, simulator and demo data generator"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "magaza-core[pdf]",
+  "duckdb>=1.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "magaza_jobs"
+
+[tool.uv.sources]
+magaza-core = { workspace = true }

@@ -1,0 +1,40 @@
+# deps / envs
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# builds
+dist/
+out/
+.next/
+*.tsbuildinfo
+apps/demo-store/public/generated/
+apps/demo-store/dist/
+
+# test output
+playwright-report/
+test-results/
+artifacts/
+coverage/
+
+# generated demo data and analytics fixtures (re-created by `make data` / `make fixture`)
+data/demo/
+data/analytics/
+.local/
+
+# secrets
+.env
+.env.local
+*.service-account.json
+
+# tooling logs
+*.log
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+.firebase/
+.local-emulator.log
