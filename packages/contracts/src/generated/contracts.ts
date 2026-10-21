@@ -249,6 +249,10 @@ export interface ProductCard {
 export interface ComplementRule {
   rule_id: string;
   source_category: string;
+  /**
+   * Rule applies only to source products carrying at least one of these tags (empty = whole category).
+   */
+  source_tags?: string[];
   target_category: string;
   target_tags?: string[];
   reason: string;

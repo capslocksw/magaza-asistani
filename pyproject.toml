@@ -41,6 +41,9 @@ line-length = 110
 target-version = "py312"
 extend-exclude = ["packages/core-py/src/magaza_core/contracts/generated.py", "node_modules", "apps", "data"]
 
+[tool.ruff.format]
+line-ending = "lf"
+
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "ASYNC"]
 # Turkish user-facing strings legitimately contain characters ruff flags as ambiguous.

@@ -1,5 +1,7 @@
 # Mağaza Asistanım — developer entry points. Recipes run in bash (Git Bash on Windows).
 SHELL := /bin/bash
+export PYTHONUTF8 := 1
+export PYTHONIOENCODING := utf-8
 .DEFAULT_GOAL := help
 .PHONY: help setup dev check lint typecheck test test-py test-js e2e eval contracts data fixture seed build clean
 
@@ -16,7 +18,7 @@ setup: ## Install dependencies (uv, pnpm), Playwright browsers, Firestore emulat
 	$(PNPM) exec playwright install chromium
 	$(UV) run playwright install chromium
 	@ls $$HOME/.cache/firebase/emulators/cloud-firestore-emulator-*.jar >/dev/null 2>&1 || $(PNPM) exec firebase setup:emulators:firestore
-	@echo "setup ok"
+	$(MAKE) data
 
 check: lint typecheck test ## Lint, type-check and unit tests (Python + TS)
 

@@ -6,7 +6,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | --- | --- | --- |
 | M0 Repo iskeleti | ✅ | `make setup` → exit 0; `make check` → ruff/eslint/mypy/tsc temiz, pytest 4 passed, vitest 4 dosya passed |
 | M1 Sözleşmeler | ✅ | `make contracts` 42 tip üretir; vitest 26 + pytest 38 sözleşme testi; tsc + mypy temiz |
-| M2 Demo veri | ⏳ | |
+| M2 Demo veri | ✅ | `make data` → yapi-market 329 SKU/40 föy, ambalaj 123 SKU/15 föy (PDF); veri doğrulama testi 26 passed |
 | M3 Demo vitrin | ⏳ | |
 | M4 Widget | ⏳ | |
 | M5 Agent servisi | ⏳ | |
@@ -44,6 +44,28 @@ Kanıt:
 $ make contracts → "contracts: 42 types -> packages/contracts/src/generated/contracts.ts, .../magaza_core/contracts/generated.py"
 $ make check     → EXIT=0; "All checks passed!", mypy "Success: no issues found in 8 source files",
                    pytest "41 passed", vitest packages/contracts "26 passed" (geçerli/geçersiz örnekler, bundle senkron, formatTRY, SSE)
+```
+
+## M2 — Demo veri ✅
+
+- Üretici: `services/jobs/src/magaza_jobs/demo_data/` (seed'li `random.Random`, LLM yok). `make data` → `data/demo/` (git dışı, her kurulumda yeniden üretilir).
+  - `yapi-market` (Yapıcı Market): 329 SKU, 9 kategori (boya, astar, boya malzemeleri, yapıştırıcı/silikon, hırdavat, el aletleri, elektrikli aletler, banyo/tesisat, temizlik/yüzey hazırlık).
+  - `ambalaj` (Kutu&Co Ambalaj): 123 SKU, 8 kategori (tek/çift oluklu koli ölçüleri, koli bandı, streç film, balonlu naylon, dolgu, etiket, zarf/poşet).
+  - Teknik özellikler: yapıştırıcıda taşıma kapasitesi / ilk tutunma / kuruma süresi / yüzey uyumu; kolide iç ölçü, dalga tipi, taşıma ağırlığı, gramaj.
+  - Gerçekçi TL raf fiyatları (`₺189,90`, `₺1.499,90`), %30 indirimli liste fiyatı, ~%7 stok dışı, puan/yorum, taksit, kargo.
+  - Tamamlayıcı kural tablosu (`tenants.py` → `COMPLEMENT_RULES`, veri olarak) + çözümleyici (`complements.py`): ör. montaj yapıştırıcısı → silikon tabancası + yüzey temizleyici + maskeleme bandı; çift oluklu koli → balonlu naylon + hotmelt bant + kupa separatörü + kırılacak etiketi.
+  - Teknik föyler: yapi-market 40, ambalaj 15; Markdown → HTML → PDF (ADR 003: WeasyPrint, Windows'ta Chromium yedeği).
+  - Görseller: kategori ikonlu, tutarlı stilde SVG yer tutucular (ürün başına), kategori ikonları ve kurgusal logolar.
+  - Google Merchant `feed.xml` (RSS 2.0 `g:` + ek alanlar için `ma:` ad alanı); `feed_format.parse_feed` ile geri okunur.
+  - Kiracı konfigürasyonları + persona şablonları (Teknik Usta, Ambalaj Danışmanı) ve konu taksonomileri veri olarak.
+- Kanıt:
+```
+$ make data
+yapi-market: 329 products, 9 categories, 40 data sheets, 40 PDFs
+ambalaj: 123 products, 8 categories, 15 data sheets, 15 PDFs
+$ uv run pytest -q services/jobs   → 26 passed
+  (şemaya uygunluk [jsonschema + pydantic], SKU tekilliği, tamamlayıcı referans bütünlüğü, kural hedefleri,
+   föy sayıları, determinizm, feed gidiş-dönüş, gerçek marka yok, KICKOFF senaryoları, PDF render)
 ```
 
 ## Kalan işler

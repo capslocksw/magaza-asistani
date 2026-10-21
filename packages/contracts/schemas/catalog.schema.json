@@ -90,6 +90,12 @@
       "properties": {
         "rule_id": { "type": "string" },
         "source_category": { "type": "string" },
+        "source_tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Rule applies only to source products carrying at least one of these tags (empty = whole category)."
+        },
         "target_category": { "type": "string" },
         "target_tags": { "type": "array", "items": { "type": "string" }, "default": [] },
         "reason": { "type": "string" },

@@ -23,6 +23,12 @@ class ComplementRule(BaseModel):
     )
     rule_id: str
     source_category: str
+    source_tags: Annotated[
+        list[str] | None,
+        Field(
+            description="Rule applies only to source products carrying at least one of these tags (empty = whole category)."
+        ),
+    ] = []
     target_category: str
     target_tags: list[str] | None = []
     reason: str
