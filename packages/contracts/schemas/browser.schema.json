@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "browser.schema.json",
+  "title": "Browser",
+  "$defs": {
+    "BrowserEventName": {
+      "title": "BrowserEventName",
+      "description": "window CustomEvent names exchanged between the storefront and the widget.",
+      "enum": ["ma:add-to-cart", "ma:ready", "ma:open", "ma:close"]
+    },
+    "CartLine": {
+      "title": "CartLine",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sku", "title", "price", "qty"],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "title": { "type": "string" },
+        "price": { "type": "number" },
+        "qty": { "type": "integer", "minimum": 1 },
+        "image_url": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"] }
+      }
+    },
+    "AddToCartDetail": {
+      "title": "AddToCartDetail",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "items"],
+      "description": "detail of the `ma:add-to-cart` CustomEvent dispatched on window by the widget.",
+      "properties": {
+        "source": { "const": "magaza-asistani" },
+        "session_id": { "type": ["string", "null"] },
+        "bundle_id": { "type": ["string", "null"] },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/CartLine" }, "minItems": 1 }
+      }
+    },
+    "OrderLine": {
+      "title": "OrderLine",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sku", "qty", "price"],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "qty": { "type": "integer", "minimum": 1 },
+        "price": { "type": "number" },
+        "title": { "type": ["string", "null"] }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order_id", "items", "total", "currency"],
+      "description": "Argument of window.MagazaAsistani.trackOrder(order), called by the storefront on order confirmation.",
+      "properties": {
+        "order_id": { "type": "string", "minLength": 1 },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/OrderLine" }, "minItems": 1 },
+        "total": { "type": "number", "minimum": 0 },
+        "currency": { "$ref": "common.schema.json#/$defs/Currency" }
+      }
+    }
+  }
+}

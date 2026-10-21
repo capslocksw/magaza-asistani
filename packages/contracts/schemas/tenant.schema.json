@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tenant.schema.json",
+  "title": "Tenant",
+  "$defs": {
+    "PersonaTemplate": {
+      "title": "PersonaTemplate",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "name", "description", "instruction", "version"],
+      "properties": {
+        "template_id": { "type": "string", "pattern": "^[a-z0-9-]{2,40}$" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "instruction": {
+          "type": "string",
+          "description": "Instruction template. Placeholders: {{store_name}}, {{assistant_name}}, {{actions}}, {{tone_notes}}, {{extra_instructions}}."
+        },
+        "version": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "PersonaSettings": {
+      "title": "PersonaSettings",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "assistant_name", "greeting", "suggested_questions"],
+      "properties": {
+        "template_id": { "type": "string" },
+        "assistant_name": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "tone_notes": { "type": "string", "default": "" },
+        "extra_instructions": { "type": "string", "default": "" },
+        "greeting": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "suggested_questions": { "type": "array", "items": { "type": "string" }, "maxItems": 6 }
+      }
+    },
+    "TenantTheme": {
+      "title": "TenantTheme",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_color", "accent_color", "text_on_primary", "launcher_label"],
+      "properties": {
+        "primary_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "accent_color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "text_on_primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "logo_url": { "type": ["string", "null"] },
+        "launcher_label": { "type": "string", "maxLength": 40 },
+        "position": { "enum": ["right", "left"], "default": "right" }
+      }
+    },
+    "TenantActions": {
+      "title": "TenantActions",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["add_to_cart", "quote_request"],
+      "properties": {
+        "add_to_cart": { "type": "boolean" },
+        "quote_request": { "type": "boolean" }
+      }
+    },
+    "CatalogSource": {
+      "title": "CatalogSource",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "feed_url"],
+      "properties": {
+        "type": { "const": "merchant_feed" },
+        "feed_url": { "type": "string", "description": "Google Merchant XML feed (http(s) URL, or a file path in local dev)." },
+        "docs_url": { "type": ["string", "null"], "description": "Folder or bucket with the technical data sheets (PDF)." },
+        "last_synced_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "TenantQuotas": {
+      "title": "TenantQuotas",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monthly_messages", "messages_per_session", "requests_per_minute_per_visitor"],
+      "properties": {
+        "monthly_messages": { "type": "integer", "minimum": 0 },
+        "messages_per_session": { "type": "integer", "minimum": 1 },
+        "requests_per_minute_per_visitor": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "TopicDefinition": {
+      "title": "TopicDefinition",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic_id", "label", "keywords"],
+      "properties": {
+        "topic_id": { "type": "string", "pattern": "^[a-z0-9_]{2,40}$" },
+        "label": { "type": "string" },
+        "keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "TenantConfig": {
+      "title": "TenantConfig",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant_id",
+        "display_name",
+        "status",
+        "public_key",
+        "allowed_origins",
+        "persona",
+        "theme",
+        "actions",
+        "catalog",
+        "quotas",
+        "holdout_pct",
+        "sku_pattern",
+        "topic_taxonomy"
+      ],
+      "properties": {
+        "tenant_id": { "$ref": "common.schema.json#/$defs/TenantId" },
+        "display_name": { "type": "string" },
+        "status": { "enum": ["active", "suspended"] },
+        "public_key": { "type": "string", "pattern": "^pk_[a-z0-9_]{6,64}$" },
+        "allowed_origins": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Exact origins (scheme://host[:port], no trailing slash) allowed to embed the widget."
+        },
+        "persona": { "$ref": "#/$defs/PersonaSettings" },
+        "theme": { "$ref": "#/$defs/TenantTheme" },
+        "actions": { "$ref": "#/$defs/TenantActions" },
+        "catalog": { "$ref": "#/$defs/CatalogSource" },
+        "quotas": { "$ref": "#/$defs/TenantQuotas" },
+        "holdout_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 50,
+          "description": "Share of visitors (percent) in the control group; the widget stays hidden for them."
+        },
+        "sku_pattern": { "type": "string", "description": "Regex the grounding guardrail uses to find SKUs in answers." },
+        "topic_taxonomy": { "type": "array", "items": { "$ref": "#/$defs/TopicDefinition" } },
+        "created_at": { "type": ["string", "null"], "format": "date-time" },
+        "updated_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "WidgetPublicConfig": {
+      "title": "WidgetPublicConfig",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "assistant_name", "greeting", "suggested_questions", "theme", "actions", "group"],
+      "properties": {
+        "display_name": { "type": "string" },
+        "assistant_name": { "type": "string" },
+        "greeting": { "type": "string" },
+        "suggested_questions": { "type": "array", "items": { "type": "string" } },
+        "theme": { "$ref": "#/$defs/TenantTheme" },
+        "actions": { "$ref": "#/$defs/TenantActions" },
+        "group": { "enum": ["assistant", "control"], "description": "Holdout assignment for this visitor." }
+      }
+    }
+  }
+}

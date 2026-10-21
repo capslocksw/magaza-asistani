@@ -1,0 +1,35 @@
+{
+  "ChatRequest": [
+    { "message": "", "visitor_id": "v_8f2a1c9d0e" },
+    { "message": "merhaba", "visitor_id": "v_8f2a1c9d0e", "tenant_id": "ambalaj" },
+    { "message": "merhaba" }
+  ],
+  "Product": [
+    { "sku": "bad-sku", "title": "X" }
+  ],
+  "SseEvent": [
+    { "type": "token" },
+    { "type": "unknown", "text": "x" },
+    { "type": "error", "code": "teapot", "message": "x" }
+  ],
+  "AnalyticsEvent": [
+    {
+      "event_id": "e_01",
+      "event_type": "page_scroll",
+      "tenant_id": "yapi-market",
+      "session_id": null,
+      "visitor_id_hash": "3f2a9c0d1e2b4a5f",
+      "ts": "2026-10-21T21:15:00Z",
+      "model": null,
+      "tokens_in": 0,
+      "tokens_out": 0,
+      "latency_ms": null,
+      "cost_usd_est": 0,
+      "is_synthetic": false,
+      "payload": {}
+    }
+  ],
+  "Order": [
+    { "order_id": "ORD-1", "items": [], "total": 0, "currency": "USD" }
+  ]
+}

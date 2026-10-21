@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "analytics.schema.json",
+  "title": "Analytics",
+  "$defs": {
+    "AnalyticsEventType": {
+      "title": "AnalyticsEventType",
+      "description": "visit = widget script loaded for a visitor (denominator for assisted vs. unassisted conversion).",
+      "enum": [
+        "visit",
+        "widget_open",
+        "user_message",
+        "agent_message",
+        "tool_call",
+        "product_shown",
+        "add_to_cart",
+        "quote_request",
+        "order",
+        "feedback"
+      ]
+    },
+    "AnalyticsEvent": {
+      "title": "AnalyticsEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "tenant_id",
+        "session_id",
+        "visitor_id_hash",
+        "ts",
+        "model",
+        "tokens_in",
+        "tokens_out",
+        "latency_ms",
+        "cost_usd_est",
+        "is_synthetic",
+        "payload"
+      ],
+      "properties": {
+        "event_id": { "type": "string" },
+        "event_type": { "$ref": "#/$defs/AnalyticsEventType" },
+        "tenant_id": { "$ref": "common.schema.json#/$defs/TenantId" },
+        "session_id": { "type": ["string", "null"] },
+        "visitor_id_hash": { "type": "string", "pattern": "^[a-f0-9]{16,64}$" },
+        "ts": { "type": "string", "format": "date-time" },
+        "model": { "type": ["string", "null"] },
+        "tokens_in": { "type": "integer", "minimum": 0 },
+        "tokens_out": { "type": "integer", "minimum": 0 },
+        "latency_ms": { "type": ["integer", "null"], "minimum": 0 },
+        "cost_usd_est": { "type": "number", "minimum": 0 },
+        "is_synthetic": { "type": "boolean" },
+        "payload": { "type": "object", "description": "Event specific fields; PII is masked before the event is written." }
+      }
+    }
+  }
+}

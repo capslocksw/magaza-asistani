@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "chat.schema.json",
+  "title": "Chat",
+  "$defs": {
+    "ChatRequest": {
+      "title": "ChatRequest",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message", "visitor_id"],
+      "description": "Body of POST /v1/t/{public_key}/chat. The tenant comes from the verified public key + Origin, never from the body.",
+      "properties": {
+        "message": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "session_id": { "type": ["string", "null"], "pattern": "^[A-Za-z0-9_-]{8,64}$" },
+        "visitor_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{8,128}$" },
+        "page_url": { "type": ["string", "null"], "maxLength": 2048 },
+        "cart_skus": { "type": "array", "items": { "type": "string" }, "maxItems": 100, "default": [] }
+      }
+    },
+    "BundleItem": {
+      "title": "BundleItem",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sku", "title", "price", "qty", "role", "image_url", "url"],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "title": { "type": "string" },
+        "price": { "type": "number" },
+        "qty": { "type": "integer", "minimum": 1 },
+        "role": { "enum": ["main", "complement"] },
+        "image_url": { "type": "string" },
+        "url": { "type": "string" },
+        "reason": { "type": ["string", "null"] }
+      }
+    },
+    "Bundle": {
+      "title": "Bundle",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_id", "title", "rationale", "items", "total", "currency"],
+      "properties": {
+        "bundle_id": { "type": "string" },
+        "title": { "type": "string" },
+        "rationale": { "type": "string" },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/BundleItem" }, "minItems": 1 },
+        "total": { "type": "number" },
+        "currency": { "$ref": "common.schema.json#/$defs/Currency" }
+      }
+    },
+    "SourceRef": {
+      "title": "SourceRef",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_id", "title", "url"],
+      "properties": {
+        "doc_id": { "type": "string" },
+        "title": { "type": "string" },
+        "url": { "type": "string" },
+        "section": { "type": ["string", "null"] },
+        "snippet": { "type": ["string", "null"] }
+      }
+    },
+    "ChatUsage": {
+      "title": "ChatUsage",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "tokens_in", "tokens_out", "latency_ms"],
+      "properties": {
+        "model": { "type": "string" },
+        "tokens_in": { "type": "integer", "minimum": 0 },
+        "tokens_out": { "type": "integer", "minimum": 0 },
+        "latency_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "TokenEvent": {
+      "title": "TokenEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "token" },
+        "text": { "type": "string" }
+      }
+    },
+    "ProductsEvent": {
+      "title": "ProductsEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "products"],
+      "properties": {
+        "type": { "const": "products" },
+        "products": { "type": "array", "items": { "$ref": "catalog.schema.json#/$defs/ProductCard" } }
+      }
+    },
+    "BundleEvent": {
+      "title": "BundleEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "bundle"],
+      "properties": {
+        "type": { "const": "bundle" },
+        "bundle": { "$ref": "#/$defs/Bundle" }
+      }
+    },
+    "ActionEvent": {
+      "title": "ActionEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "action"],
+      "properties": {
+        "type": { "const": "action" },
+        "action": { "enum": ["suggest_quote", "quote_created"] },
+        "label": { "type": ["string", "null"] },
+        "payload": { "type": "object", "default": {} }
+      }
+    },
+    "SourceEvent": {
+      "title": "SourceEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "sources"],
+      "properties": {
+        "type": { "const": "source" },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/SourceRef" } }
+      }
+    },
+    "DoneEvent": {
+      "title": "DoneEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "session_id", "message_id"],
+      "properties": {
+        "type": { "const": "done" },
+        "session_id": { "type": "string" },
+        "message_id": { "type": "string" },
+        "usage": { "anyOf": [{ "$ref": "#/$defs/ChatUsage" }, { "type": "null" }] }
+      }
+    },
+    "ErrorEvent": {
+      "title": "ErrorEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "code", "message"],
+      "properties": {
+        "type": { "const": "error" },
+        "code": { "enum": ["invalid_request", "origin_not_allowed", "unknown_tenant", "rate_limited", "quota_exceeded", "internal"] },
+        "message": { "type": "string" }
+      }
+    },
+    "SseEvent": {
+      "title": "SseEvent",
+      "description": "One server-sent event of the chat stream. Wire format: `event: <type>` + `data: <json>`.",
+      "oneOf": [
+        { "$ref": "#/$defs/TokenEvent" },
+        { "$ref": "#/$defs/ProductsEvent" },
+        { "$ref": "#/$defs/BundleEvent" },
+        { "$ref": "#/$defs/ActionEvent" },
+        { "$ref": "#/$defs/SourceEvent" },
+        { "$ref": "#/$defs/DoneEvent" },
+        { "$ref": "#/$defs/ErrorEvent" }
+      ]
+    },
+    "QuoteItem": {
+      "title": "QuoteItem",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sku", "qty"],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "qty": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+      }
+    },
+    "QuoteRequest": {
+      "title": "QuoteRequest",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visitor_id", "company_name", "contact_name", "email", "items"],
+      "properties": {
+        "visitor_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{8,128}$" },
+        "session_id": { "type": ["string", "null"] },
+        "company_name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "contact_name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+        "phone": { "type": ["string", "null"], "maxLength": 32 },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/QuoteItem" }, "minItems": 1, "maxItems": 50 },
+        "note": { "type": ["string", "null"], "maxLength": 1000 }
+      }
+    },
+    "QuoteResponse": {
+      "title": "QuoteResponse",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote_id", "status"],
+      "properties": {
+        "quote_id": { "type": "string" },
+        "status": { "const": "received" }
+      }
+    },
+    "ClientEvent": {
+      "title": "ClientEvent",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "visitor_id"],
+      "description": "Body of POST /v1/t/{public_key}/events (widget -> agent-api). Converted server-side into an AnalyticsEvent.",
+      "properties": {
+        "event_type": { "enum": ["visit", "widget_open", "product_shown", "add_to_cart", "order", "feedback"] },
+        "visitor_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{8,128}$" },
+        "session_id": { "type": ["string", "null"] },
+        "payload": { "type": "object", "default": {} }
+      }
+    }
+  }
+}

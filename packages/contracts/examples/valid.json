@@ -1,0 +1,204 @@
+{
+  "TenantConfig": [
+    {
+      "tenant_id": "yapi-market",
+      "display_name": "Yapıcı Market",
+      "status": "active",
+      "public_key": "pk_test_yapimarket",
+      "allowed_origins": ["http://localhost:3101", "http://127.0.0.1:3101"],
+      "persona": {
+        "template_id": "teknik-usta",
+        "assistant_name": "Usta",
+        "tone_notes": "Samimi, pratik, güvenlik uyarılarını atlamaz.",
+        "extra_instructions": "",
+        "greeting": "Merhaba! Ne tamir ediyoruz bugün?",
+        "suggested_questions": ["Kornişim koptu, matkabım yok", "Banyo derzleri karardı"]
+      },
+      "theme": {
+        "primary_color": "#E8590C",
+        "accent_color": "#1F2937",
+        "text_on_primary": "#FFFFFF",
+        "logo_url": null,
+        "launcher_label": "Ustaya sor",
+        "position": "right"
+      },
+      "actions": { "add_to_cart": true, "quote_request": false },
+      "catalog": { "type": "merchant_feed", "feed_url": "data/demo/yapi-market/feed.xml", "docs_url": null, "last_synced_at": null },
+      "quotas": { "monthly_messages": 200000, "messages_per_session": 40, "requests_per_minute_per_visitor": 12 },
+      "holdout_pct": 10,
+      "sku_pattern": "YM-[A-Z]{3}-[0-9]{4}",
+      "topic_taxonomy": [{ "topic_id": "montaj", "label": "Montaj ve sabitleme", "keywords": ["korniş", "raf", "asmak"] }],
+      "created_at": "2026-10-21T00:00:00Z",
+      "updated_at": null
+    }
+  ],
+  "PersonaTemplate": [
+    {
+      "template_id": "teknik-usta",
+      "name": "Teknik Usta",
+      "description": "Yapı market müşterisine usta gibi yol gösterir.",
+      "instruction": "Sen {{store_name}} mağazasının asistanı {{assistant_name}}sın. {{actions}}",
+      "version": 1
+    }
+  ],
+  "Product": [
+    {
+      "sku": "YM-YAP-0012",
+      "title": "Güçlü Montaj Yapıştırıcısı 290 ml",
+      "brand": "Tutkan",
+      "category": "yapistirici-silikon",
+      "category_name": "Yapıştırıcı ve Silikon",
+      "subcategory": "Montaj yapıştırıcısı",
+      "description": "Matkapsız montaj için yüksek ilk tutunmalı yapıştırıcı.",
+      "price": 189.9,
+      "list_price": 219.9,
+      "currency": "TRY",
+      "stock": 42,
+      "unit": "adet",
+      "image_url": "/images/YM-YAP-0012.svg",
+      "url": "/urun/YM-YAP-0012/",
+      "specs": [
+        { "key": "tasima_kapasitesi", "label": "Taşıma kapasitesi", "value": 40, "unit": "kg/m²" },
+        { "key": "kuruma_suresi", "label": "Tam kuruma", "value": 24, "unit": "saat" },
+        { "key": "yuzey", "label": "Yüzey uyumu", "value": "Beton, ahşap, alçıpan, seramik", "unit": null }
+      ],
+      "tags": ["matkapsiz", "montaj"],
+      "complement_skus": ["YM-ALE-0101", "YM-TEM-0007"],
+      "doc_id": "doc-ym-yap-0012",
+      "doc_url": "/docs/YM-YAP-0012.pdf",
+      "rating": 4.6,
+      "review_count": 128,
+      "sales_rank": 3,
+      "max_installments": 6,
+      "free_shipping": false,
+      "gtin": null
+    }
+  ],
+  "DocChunk": [
+    {
+      "chunk_id": "doc-ym-yap-0012#2",
+      "doc_id": "doc-ym-yap-0012",
+      "sku": "YM-YAP-0012",
+      "title": "Güçlü Montaj Yapıştırıcısı — Teknik Föy",
+      "section": "Uygulama",
+      "text": "Yüzeyi tozdan arındırın, noktasal uygulayın, 24 saat yük bindirmeyin.",
+      "order": 2,
+      "page": 1,
+      "source_url": "/docs/YM-YAP-0012.pdf"
+    }
+  ],
+  "ChatRequest": [
+    { "message": "Kornişim koptu, matkabım yok", "visitor_id": "v_8f2a1c9d0e" },
+    {
+      "message": "2 kg seramik kupa göndereceğim, hangi koli?",
+      "visitor_id": "v_8f2a1c9d0e",
+      "session_id": "s_1234567890ab",
+      "page_url": "http://localhost:3102/",
+      "cart_skus": ["KC-KOL-0034"]
+    }
+  ],
+  "SseEvent": [
+    { "type": "token", "text": "Matkapsız " },
+    {
+      "type": "products",
+      "products": [
+        {
+          "sku": "YM-YAP-0012",
+          "title": "Güçlü Montaj Yapıştırıcısı 290 ml",
+          "brand": "Tutkan",
+          "price": 189.9,
+          "list_price": null,
+          "currency": "TRY",
+          "image_url": "/images/YM-YAP-0012.svg",
+          "url": "/urun/YM-YAP-0012/",
+          "in_stock": true,
+          "reason": "Matkapsız montaj"
+        }
+      ]
+    },
+    {
+      "type": "bundle",
+      "bundle": {
+        "bundle_id": "b_01",
+        "title": "Matkapsız korniş montaj paketi",
+        "rationale": "Yapıştırıcı + tabanca + temizleyici",
+        "items": [
+          {
+            "sku": "YM-YAP-0012",
+            "title": "Güçlü Montaj Yapıştırıcısı 290 ml",
+            "price": 189.9,
+            "qty": 1,
+            "role": "main",
+            "image_url": "/images/YM-YAP-0012.svg",
+            "url": "/urun/YM-YAP-0012/"
+          }
+        ],
+        "total": 189.9,
+        "currency": "TRY"
+      }
+    },
+    { "type": "action", "action": "suggest_quote", "label": "Teklif iste", "payload": {} },
+    { "type": "source", "sources": [{ "doc_id": "doc-ym-yap-0012", "title": "Teknik Föy", "url": "/docs/YM-YAP-0012.pdf" }] },
+    {
+      "type": "done",
+      "session_id": "s_1234567890ab",
+      "message_id": "m_1",
+      "usage": { "model": "fake-llm", "tokens_in": 120, "tokens_out": 80, "latency_ms": 35 }
+    },
+    { "type": "error", "code": "rate_limited", "message": "Çok hızlı mesaj gönderiyorsunuz." }
+  ],
+  "AnalyticsEvent": [
+    {
+      "event_id": "e_01",
+      "event_type": "agent_message",
+      "tenant_id": "yapi-market",
+      "session_id": "s_1234567890ab",
+      "visitor_id_hash": "3f2a9c0d1e2b4a5f",
+      "ts": "2026-10-21T21:15:00Z",
+      "model": "fake-llm",
+      "tokens_in": 812,
+      "tokens_out": 164,
+      "latency_ms": 1240,
+      "cost_usd_est": 0.00031,
+      "is_synthetic": false,
+      "payload": { "skus": ["YM-YAP-0012"] }
+    }
+  ],
+  "ClientEvent": [
+    { "event_type": "feedback", "visitor_id": "v_8f2a1c9d0e", "session_id": "s_1234567890ab", "payload": { "message_id": "m_1", "rating": "up" } }
+  ],
+  "QuoteRequest": [
+    {
+      "visitor_id": "v_8f2a1c9d0e",
+      "session_id": null,
+      "company_name": "Kupa Atölyesi Ltd.",
+      "contact_name": "Deniz Kaya",
+      "email": "deniz@example.com",
+      "phone": "+90 555 000 00 00",
+      "items": [{ "sku": "KC-KOL-0034", "qty": 500 }],
+      "note": "Aylık düzenli alım"
+    }
+  ],
+  "AddToCartDetail": [
+    {
+      "source": "magaza-asistani",
+      "session_id": "s_1234567890ab",
+      "bundle_id": "b_01",
+      "items": [{ "sku": "YM-YAP-0012", "title": "Güçlü Montaj Yapıştırıcısı 290 ml", "price": 189.9, "qty": 1 }]
+    }
+  ],
+  "Order": [
+    { "order_id": "ORD-1001", "items": [{ "sku": "YM-YAP-0012", "qty": 2, "price": 189.9 }], "total": 379.8, "currency": "TRY" }
+  ],
+  "WidgetPublicConfig": [
+    {
+      "display_name": "Kutu&Co Ambalaj",
+      "assistant_name": "Ambalaj Danışmanı",
+      "greeting": "Ne göndereceksiniz? Ağırlık ve ölçüyü söyleyin, doğru koliyi bulalım.",
+      "suggested_questions": ["2 kg seramik kupa göndereceğim, hangi koli?"],
+      "theme": { "primary_color": "#0F766E", "accent_color": "#B45309", "text_on_primary": "#FFFFFF", "launcher_label": "Danışmana sor" },
+      "actions": { "add_to_cart": true, "quote_request": true },
+      "group": "assistant"
+    }
+  ]
+}

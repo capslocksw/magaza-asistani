@@ -24,7 +24,7 @@ coverage/
 # generated demo data and analytics fixtures (re-created by `make data` / `make fixture`)
 data/demo/
 data/analytics/
-.local/
+.local*
 
 # secrets
 .env
@@ -37,4 +37,3 @@ firebase-debug.log*
 firestore-debug.log*
 ui-debug.log*
 .firebase/
-.local-emulator.log

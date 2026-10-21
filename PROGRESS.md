@@ -5,7 +5,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | Taş | Durum | Kanıt (özet) |
 | --- | --- | --- |
 | M0 Repo iskeleti | ✅ | `make setup` → exit 0; `make check` → ruff/eslint/mypy/tsc temiz, pytest 4 passed, vitest 4 dosya passed |
-| M1 Sözleşmeler | ⏳ | |
+| M1 Sözleşmeler | ✅ | `make contracts` 42 tip üretir; vitest 26 + pytest 38 sözleşme testi; tsc + mypy temiz |
 | M2 Demo veri | ⏳ | |
 | M3 Demo vitrin | ⏳ | |
 | M4 Widget | ⏳ | |
@@ -26,6 +26,24 @@ Kanıt:
 $ make setup   → ... "setup ok", EXIT=0
 $ make check   → ruff check/format OK, eslint OK, mypy "Success", tsc 4 paket Done,
                  pytest "4 passed", vitest contracts/widget/admin-web/demo-store "1 passed" (her biri)
+```
+
+## M1 — Sözleşmeler ✅
+
+- Şemalar: `packages/contracts/schemas/{common,tenant,catalog,chat,analytics,browser}.schema.json`
+  - `TenantConfig`, `PersonaTemplate` (+ `PersonaSettings`, `TenantTheme`, `TenantActions`, `TenantQuotas`, `TopicDefinition`, `WidgetPublicConfig`)
+  - `Product`, `ProductCard`, `ProductSpec`, `ComplementRule`, `DocChunk`
+  - `ChatRequest`, SSE olayları `token|products|bundle|action|source|done|error` (`SseEvent` birleşimi), `QuoteRequest`, `ClientEvent`
+  - `AnalyticsEvent` (widget_open, user_message, agent_message, tool_call, product_shown, add_to_cart, quote_request, order, feedback + `visit`; alanlar: tenant_id, session_id, visitor_id_hash, ts, model, tokens_in, tokens_out, latency_ms, cost_usd_est, is_synthetic, payload)
+  - Tarayıcı: `ma:add-to-cart` (`AddToCartDetail`), `MagazaAsistani.trackOrder(order)` (`Order`)
+- Üretim: `make contracts` → `packages/contracts/src/generated/contracts.ts` + `packages/core-py/src/magaza_core/contracts/generated.py` (ADR 002).
+- Ortak yardımcılar: `formatTRY` / `format_try` (`₺1.234,90`), SSE kodlayıcı/ayrıştırıcı (TS + Python).
+
+Kanıt:
+```
+$ make contracts → "contracts: 42 types -> packages/contracts/src/generated/contracts.ts, .../magaza_core/contracts/generated.py"
+$ make check     → EXIT=0; "All checks passed!", mypy "Success: no issues found in 8 source files",
+                   pytest "41 passed", vitest packages/contracts "26 passed" (geçerli/geçersiz örnekler, bundle senkron, formatTRY, SSE)
 ```
 
 ## Kalan işler

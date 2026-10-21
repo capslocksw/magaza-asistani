@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "catalog.schema.json",
+  "title": "Catalog",
+  "$defs": {
+    "ProductSpec": {
+      "title": "ProductSpec",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "value"],
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "label": { "type": "string" },
+        "value": { "type": ["string", "number", "boolean"] },
+        "unit": { "type": ["string", "null"] }
+      }
+    },
+    "Product": {
+      "title": "Product",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sku",
+        "title",
+        "brand",
+        "category",
+        "category_name",
+        "description",
+        "price",
+        "currency",
+        "stock",
+        "unit",
+        "image_url",
+        "url",
+        "specs",
+        "tags",
+        "complement_skus"
+      ],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "title": { "type": "string", "minLength": 3 },
+        "brand": { "type": "string" },
+        "category": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "category_name": { "type": "string" },
+        "subcategory": { "type": ["string", "null"] },
+        "description": { "type": "string" },
+        "price": { "type": "number", "exclusiveMinimum": 0 },
+        "list_price": { "type": ["number", "null"] },
+        "currency": { "$ref": "common.schema.json#/$defs/Currency" },
+        "stock": { "type": "integer", "minimum": 0 },
+        "unit": { "type": "string" },
+        "image_url": { "type": "string" },
+        "url": { "type": "string" },
+        "specs": { "type": "array", "items": { "$ref": "#/$defs/ProductSpec" } },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "complement_skus": { "type": "array", "items": { "type": "string" }, "description": "SKUs of complementary products (referential integrity is checked by the data tests)." },
+        "doc_id": { "type": ["string", "null"] },
+        "doc_url": { "type": ["string", "null"] },
+        "rating": { "type": ["number", "null"], "minimum": 0, "maximum": 5 },
+        "review_count": { "type": "integer", "minimum": 0, "default": 0 },
+        "sales_rank": { "type": ["integer", "null"], "minimum": 1 },
+        "max_installments": { "type": "integer", "minimum": 1, "default": 1 },
+        "free_shipping": { "type": "boolean", "default": false },
+        "gtin": { "type": ["string", "null"] }
+      }
+    },
+    "ProductCard": {
+      "title": "ProductCard",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sku", "title", "brand", "price", "currency", "image_url", "url", "in_stock"],
+      "properties": {
+        "sku": { "$ref": "common.schema.json#/$defs/Sku" },
+        "title": { "type": "string" },
+        "brand": { "type": "string" },
+        "price": { "type": "number" },
+        "list_price": { "type": ["number", "null"] },
+        "currency": { "$ref": "common.schema.json#/$defs/Currency" },
+        "image_url": { "type": "string" },
+        "url": { "type": "string" },
+        "in_stock": { "type": "boolean" },
+        "reason": { "type": ["string", "null"], "description": "Short reason why the assistant recommends it." }
+      }
+    },
+    "ComplementRule": {
+      "title": "ComplementRule",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "source_category", "target_category", "reason", "priority"],
+      "properties": {
+        "rule_id": { "type": "string" },
+        "source_category": { "type": "string" },
+        "target_category": { "type": "string" },
+        "target_tags": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "reason": { "type": "string" },
+        "priority": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "DocChunk": {
+      "title": "DocChunk",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chunk_id", "doc_id", "title", "text", "order", "source_url"],
+      "properties": {
+        "chunk_id": { "type": "string" },
+        "doc_id": { "type": "string" },
+        "sku": { "type": ["string", "null"] },
+        "title": { "type": "string" },
+        "section": { "type": ["string", "null"] },
+        "text": { "type": "string", "minLength": 1 },
+        "order": { "type": "integer", "minimum": 0 },
+        "page": { "type": ["integer", "null"], "minimum": 1 },
+        "source_url": { "type": "string" }
+      }
+    }
+  }
+}
