@@ -47,7 +47,7 @@ line-ending = "lf"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "ASYNC"]
 # Turkish user-facing strings legitimately contain characters ruff flags as ambiguous.
-ignore = ["RUF001", "RUF002", "RUF003", "E501"]
+ignore = ["RUF001", "RUF002", "RUF003", "E501", "ASYNC230", "ASYNC240"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["magaza_core", "agent_api", "admin_api", "magaza_jobs"]

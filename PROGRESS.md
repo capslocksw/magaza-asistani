@@ -9,7 +9,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | M2 Demo veri | ✅ | `make data` → yapi-market 329 SKU/40 föy, ambalaj 123 SKU/15 föy (PDF); veri doğrulama testi 26 passed |
 | M3 Demo vitrin | ✅ | Playwright 8 passed (2 marka × masaüstü/mobil); Lighthouse a11y 95–100; ekran görüntüleri `artifacts/screenshots/m3/` |
 | M4 Widget | ✅ | widget.js 8,4 KB gzip (<60 KB); vitest 14 passed; Playwright widget 8 passed (iki vitrin × masaüstü/mobil) |
-| M5 Agent servisi | ⏳ | |
+| M5 Agent servisi | ✅ | pytest 102 passed (emulator: çapraz-tenant sızıntı, grounding, oturum servisi, CORS/teklif); Playwright widget→gerçek agent 4 passed; `make eval` 2×30 vaka PASS |
 | M6 Yönetim paneli | ⏳ | |
 | M7 Kapanış | ⏳ | |
 
@@ -103,6 +103,31 @@ $ E2E_SUITES=widget pnpm exec playwright test e2e/widget.spec.ts → 8 passed
   iki vitrin × masaüstü/mobil: widget aç → mesaj → kartlar → paketi sepete ekle → vitrin sepet sayacı = paket kalemi sayısı
   → ödeme → sipariş mock-agent'a assisted=true ile ulaşır; ambalaj teklif formu; holdout ziyaretçide widget yok
 Ekran görüntüleri: artifacts/screenshots/m4/
+```
+
+## M5 — Agent servisi ve işler ✅
+
+- `services/agent-api` (FastAPI + Google ADK 2.12 `LlmAgent` + `Runner`):
+  - Tenant çözümleme: public key (`/v1/t/{pk}/...`) + Origin izin listesi (preflight dahil); tenant bağlamı yalnızca sunucuda (ADR 004).
+  - Persona talimatı `InstructionProvider` ile tenant konfigürasyonu + Firestore'daki persona şablonundan.
+  - Araçlar (tenant'a bağlı kapanışlar): `search_products(query, category, brand, max_price, in_stock_only)` (Firestore `find_nearest` vektör araması + kategori ön filtresi + sözcüksel yeniden sıralama), `get_product`, `search_knowledge`, `get_complements` (kural gerekçeleriyle), `propose_bundle`, `create_quote_request` (yalnızca teklif açık tenant'ta), iç guardrail aracı `report_grounding_issue`.
+  - `FirestoreSessionService` (`BaseSessionService`; `tenants/{tid}/sessions/{sid}/events`, app/user state).
+  - Callback'ler: grounding (oturumda araçlardan dönmemiş SKU → bir kez yeniden yönlendirme, ikinci kez satır temizleme; ADR 005), kota/rate limit (ziyaretçi/dk, oturum mesajı, aylık mesaj sayacı) + döngü sınırı, PII maskeleme (telefon, e-posta, TC kimlik [checksum], kart [Luhn]) log/analitik öncesi.
+  - Her adım `AnalyticsEvent` olarak yapılandırılmış JSON log (+ yerelde isteğe bağlı JSONL): user_message (konu etiketi), tool_call, agent_message (model, token, gecikme, tahmini maliyet, guardrail, "bilmiyorum", karşılanmayan talep), product_shown, quote_request; widget olayları (visit, widget_open, add_to_cart, order, feedback) `/events` ile.
+  - `LLM_MODE=fake` → deterministik `FakeLlm` (aynı araç döngüsünü sürer); `LLM_MODE=vertex` → `gemini-3.8-flash` (ID ve fiyatlar `config/llm.yaml`, Google Cloud dokümanından doğrulandı).
+- `services/jobs`: `feed_sync` (Merchant feed → Firestore + embedding, iş kaydı, `last_synced_at`), `doc_ingest` (PDF → pypdf → bölüm-farkında parçalar → embedding), `seed` (emulator'e iki tenant).
+- Altın setler: `services/agent-api/evals/{yapi-market,ambalaj}.evalset.json` — ADK `EvalSet` formatında 30'ar vaka (paket / netleştirme / katalog dışı); `make eval` (bkz. OPEN_QUESTIONS #3).
+- Kanıt:
+```
+$ make seed → {"ambalaj": {"products": 123, "doc_chunks": 92, "docs": 15, "rules": 14},
+               "yapi-market": {"products": 329, "doc_chunks": 289, "docs": 40, "rules": 39}, "seconds": 6.2}
+$ uv run pytest -q (emulator) → 102 passed
+  services/agent-api/tests/test_tenant_isolation.py  çapraz-tenant: araçlar/oturum/HTTP; B'de A ürünü dönmez
+  services/agent-api/tests/test_grounding.py         bilinmeyen SKU → report_grounding_issue → düzeltilmiş yanıt; 2. ihlal temizlenir
+  services/agent-api/tests/test_chat_flow.py         KICKOFF örnekleri (montaj+tabanca+yüzey temizleyici; çift oluklu koli+balonlu+bant)
+$ E2E_SUITES=agent pnpm exec playwright test e2e/agent.spec.ts → 4 passed (widget → gerçek agent-api, FakeLlm; ekran: artifacts/screenshots/m5/)
+$ make eval (LLM_MODE=fake) → ambalaj-golden traj 1.0 / resp 0.611 PASS; yapi-market-golden traj 1.0 / resp 0.581 PASS
+Gerçek Gemini ile uçtan uca test: bekliyor (OPEN_QUESTIONS #1).
 ```
 
 ## Kalan işler

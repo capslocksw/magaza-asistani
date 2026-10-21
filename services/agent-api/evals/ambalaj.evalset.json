@@ -1,0 +1,1525 @@
+{
+  "eval_set_id": "ambalaj-golden",
+  "name": "ambalaj altın set",
+  "eval_cases": [
+    {
+      "evalId": "ambalaj-01-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-01",
+          "userContent": {
+            "parts": [
+              {
+                "text": "2 kg seramik kupa göndereceğim, hangi koli?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Çift oluklu koli, balonlu naylon ve koli bandı öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-02-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-02",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Paletimi nasıl sarmalıyım?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "El streç filmi ve köşe koruyucu kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-03-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-03",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Ayda 1000 koli gönderiyorum, teklif alabilir miyim?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Koli ve koli bandı için teklif talebi oluşturabilirsiniz."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-04-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-04",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Tekstil ürünleri için en ekonomik ambalaj?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kargo poşeti ya da tek oluklu koli ekonomiktir."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-05-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-05",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Cam şişe göndereceğim, nasıl paketlemeliyim?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Çift oluklu koli ve balonlu naylon ile paketleyin."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-06-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-06",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kitap göndermek için koli lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Tek oluklu koli öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-07-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-07",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Ağır koliler için koli bandı önerir misin?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Hotmelt koli bandı ağır kolilerde güçlü kapama sağlar."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-08-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-08",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Termal yazıcım için kargo etiketi"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Termal kargo etiketi öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-09-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-09",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Takı gönderiyorum, küçük paket lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Balonlu zarf öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-10-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-10",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Porselen tabak takımı göndereceğim"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Çift oluklu koli ve balonlu naylon öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-11-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-11",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Bant tabancası lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bant tabancası öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-12-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-12",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Koli içindeki boşluğu nasıl doldururum?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kırpık kağıt ya da köpük cips dolgu kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-13-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-13",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Palet köşeleri eziliyor"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Karton köşe koruyucu kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-14-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-14",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Sessiz koli bandı var mı?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Sessiz koli bandı öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-15-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-15",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kırılacak eşya uyarı etiketi istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kırılacak eşya uyarı etiketi öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-16-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-16",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Elektronik cihaz göndereceğim"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Balonlu naylon ve çift oluklu koli öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-17-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-17",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Bardakları koli içinde ayrı ayrı koymak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bardak ayırıcı separatör kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-18-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-18",
+          "userContent": {
+            "parts": [
+              {
+                "text": "40 x 30 x 30 koli lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "40 x 30 x 30 cm koli öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-19-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-19",
+          "userContent": {
+            "parts": [
+              {
+                "text": "15 kg ürün göndereceğim, hangi koli dayanır?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Çift oluklu koli öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-20-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-20",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Plastiksiz ambalaj istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kraft kağıt bant ve petek kağıt öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-21-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-21",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kargo poşeti lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kargo poşeti öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-22-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-22",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Siyah streç film var mı?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Siyah el streç filmi öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-23-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-23",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Evrak göndermek için zarf"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kraft zarf öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-24-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-24",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Bantsız hızlı kurulan koli var mı?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kilitli dipli koli öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-25-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-25",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Mobilya sarmak için köpük"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Köpük levha öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-26-bundle",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-26",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Palet sarma makinesi için streç film"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Makine streç filmi öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-27-clarify",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-27",
+          "userContent": {
+            "parts": [
+              {
+                "text": "merhaba"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Size doğru ürünü önerebilmem için biraz daha ayrıntı verir misiniz?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-28-clarify",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-28",
+          "userContent": {
+            "parts": [
+              {
+                "text": "fiyat?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Size doğru ürünü önerebilmem için biraz daha ayrıntı verir misiniz?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-29-unmet",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-29",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Forklift kiralamak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bu talebe uygun bir ürünü katalogda bulamadım."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "ambalaj-30-unmet",
+      "conversation": [
+        {
+          "invocationId": "ambalaj-30",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Dizüstü bilgisayar satıyor musunuz?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bu talebe uygun bir ürünü katalogda bulamadım."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "ambalaj"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    }
+  ],
+  "creation_timestamp": 0.0
+}

@@ -1,0 +1,43 @@
+# Model IDs and unit prices live here, never in code (CLAUDE.md).
+# Verified 2026-10-22 against Google Cloud documentation:
+#   - https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-8-flash  (gemini-3.8-flash, GA 2026-09-02)
+#   - https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-3-8-flash  (use thinking_level, not temperature)
+#   - https://docs.cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings  (gemini-embedding-001, output_dimensionality)
+#   - https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing  (Gemini 3.8 Flash pricing)
+
+region: europe-west1
+
+chat:
+  default_model: gemini-3.8-flash
+  # Developer guide: thinking_level LOW|MEDIUM|HIGH (default MEDIUM); MINIMAL is unsupported for this model.
+  thinking_level: LOW
+  max_llm_calls_per_turn: 10
+
+embedding:
+  model: gemini-embedding-001
+  dimension: 768
+  # Vertex accepts one input per request for gemini-embedding-001; requests are parallelised instead.
+  batch_size: 1
+  concurrency: 8
+  # Hits below this cosine similarity count as "not in catalog" (unmet demand). 0 = off; tune on real traffic.
+  min_similarity: 0.0
+
+# USD per 1M tokens. Regional endpoints (europe-west1) are priced 10% above global.
+# Introductory price for Gemini 3.8 Flash applies through 2026-12-31; standard prices from 2027-01-01.
+pricing_usd_per_1m_tokens:
+  gemini-3.8-flash:
+    - until: "2026-12-31"
+      input: 0.825
+      output: 4.125
+    - until: null
+      input: 1.65   # 1.5 global * 1.1 regional (standard 2027 price)
+      output: 8.25  # 7.5 global * 1.1 regional
+  # Local stand-ins: no cost.
+  fake-llm:
+    - until: null
+      input: 0
+      output: 0
+  mock-agent:
+    - until: null
+      input: 0
+      output: 0

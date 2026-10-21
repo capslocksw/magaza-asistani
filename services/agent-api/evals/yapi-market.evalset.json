@@ -1,0 +1,1525 @@
+{
+  "eval_set_id": "yapi-market-golden",
+  "name": "yapi-market altın set",
+  "eval_cases": [
+    {
+      "evalId": "yapi-market-01-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-01",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kornişim koptu, matkabım yok"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Montaj yapıştırıcısı, silikon tabancası ve yüzey temizleyici öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-02-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-02",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Banyo derzleri karardı, nasıl yenilerim?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Derz dolgu ve derz temizleyici ile derzleri yenileyin."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-03-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-03",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Salonu boyayacağım, neler lazım?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "İç cephe boyası, astar, rulo ve maskeleme bandı gerekir."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-04-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-04",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Damlatan musluğu nasıl tamir ederim?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Musluk conta seti ve teflon bant ile musluğu tamir edin."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-05-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-05",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Aynayı duvara matkapsız yapıştırmak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Ayna yapıştırıcısı ile aynayı matkapsız sabitleyin."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-06-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-06",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Küvet kenarındaki silikon küflenmiş"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Antibakteriyel banyo silikonu, silikon sökücü ve tabanca kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-07-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-07",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Pencere kasası ile duvar arasında boşluk var, doldurmak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Poliüretan köpük ile boşluğu doldurun."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-08-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-08",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Demir bahçe kapımı boyamak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Metal için antipas astar ve sentetik yağlı boya kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-09-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-09",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Beton duvara raf asacağım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Raf braketi, dübel ve beton matkap ucu gerekir."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-10-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-10",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Tavanı boyamam lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Tavan boyası ve rulo ile tavanı boyayın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-11-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-11",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Dış cepheyi yenileyeceğim"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Dış cephe boyası ve dış cephe astarı öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-12-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-12",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Mobilya montajı için akülü vidalama önerir misin?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Akülü vidalama matkap ve uç seti öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-13-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-13",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kırılan seramik kupayı yapıştırmak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Seramik onarımı için epoksi ya da hızlı yapıştırıcı kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-14-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-14",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Lavabo gideri tıkandı"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Gider açıcı jel kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-15-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-15",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Ahşap sandalyem sallanıyor, tutkal lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Ahşap tutkalı ile birleşimleri yapıştırın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-16-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-16",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Duş başlığım kireçlendi"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Kireç çözücü ya da yeni duş başlığı öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-17-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-17",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Betona delik açacağım, hangi matkap?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Darbeli matkap ve beton matkap ucu seti öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-18-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-18",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Duvara tablo asmak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Tablo askı seti öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-19-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-19",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Rezervuar sürekli su kaçırıyor"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Rezervuar iç takımını değiştirin."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-20-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-20",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Mutfak tezgahı ile duvar arasını silikonlamak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Banyo mutfak silikonu ve silikon tabancası kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-21-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-21",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Eski boyayı sökmem gerekiyor"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Boya sökücü jel ve spatula kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-22-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-22",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Ahşap pergolayı güneşten korumak istiyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Ahşap koruyucu vernik uygulayın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-23-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-23",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Boya yaparken zemini ve kenarları nasıl korurum?"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Koruyucu örtü naylonu ve maskeleme bandı kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-24-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-24",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Kapı menteşesi gıcırdıyor"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Çok amaçlı yağlayıcı sprey kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-25-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-25",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Mobilya monte edeceğim, vida seti lazım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Vida dübel seti ve tornavida öneririm."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-26-bundle",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-26",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Bisikletimi sprey boya ile boyayacağım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Sprey boya kullanın."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              },
+              {
+                "args": {},
+                "name": "get_complements"
+              },
+              {
+                "args": {},
+                "name": "propose_bundle"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-27-clarify",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-27",
+          "userContent": {
+            "parts": [
+              {
+                "text": "merhaba"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Size doğru ürünü önerebilmem için biraz daha ayrıntı verir misiniz?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-28-clarify",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-28",
+          "userContent": {
+            "parts": [
+              {
+                "text": "yardım"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Size doğru ürünü önerebilmem için biraz daha ayrıntı verir misiniz?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-29-unmet",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-29",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Buzdolabımın kompresörü bozuldu"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bu talebe uygun bir ürünü katalogda bulamadım."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    },
+    {
+      "evalId": "yapi-market-30-unmet",
+      "conversation": [
+        {
+          "invocationId": "yapi-market-30",
+          "userContent": {
+            "parts": [
+              {
+                "text": "Araba lastiği arıyorum"
+              }
+            ],
+            "role": "user"
+          },
+          "finalResponse": {
+            "parts": [
+              {
+                "text": "Bu talebe uygun bir ürünü katalogda bulamadım."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediateData": {
+            "toolUses": [
+              {
+                "args": {},
+                "name": "search_products"
+              }
+            ],
+            "toolResponses": [],
+            "intermediateResponses": []
+          },
+          "creationTimestamp": 0.0
+        }
+      ],
+      "sessionInput": {
+        "appName": "magaza_asistani",
+        "userId": "eval",
+        "state": {
+          "tenant_id_hint": "yapi-market"
+        }
+      },
+      "creationTimestamp": 0.0,
+      "finalSessionState": {}
+    }
+  ],
+  "creation_timestamp": 0.0
+}

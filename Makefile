@@ -63,10 +63,10 @@ dev: ## Firestore emulator + all services + apps
 e2e: build ## Playwright end-to-end tests; screenshots go to artifacts/screenshots/
 	@test -d data/demo || $(MAKE) data
 	@test -f data/analytics/fixture.duckdb || $(MAKE) fixture
-	$(WITH_EMU) node scripts/e2e.mjs
+	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && pnpm exec playwright test"
 
 eval: ## Run adk eval golden sets (FakeLlm unless LLM_MODE=vertex)
-	$(WITH_EMU) node scripts/eval.mjs
+	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && uv run --no-sync python services/agent-api/evals/run_evals.py"
 
 clean: ## Remove build outputs
 	rm -rf apps/*/dist apps/demo-store/out apps/demo-store/.next playwright-report test-results
