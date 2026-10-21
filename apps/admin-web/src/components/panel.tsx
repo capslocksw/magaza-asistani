@@ -4,7 +4,7 @@ import { download, qs } from "@/lib/api";
 import { useFilters } from "@/lib/state";
 import { Button, Card, cn } from "./ui";
 
-export function CsvButton({ dataset }: { dataset: string }) {
+export function CsvButton({ dataset, path }: { dataset: string; path?: string }) {
   const { tenantId, range } = useFilters();
   const [busy, setBusy] = useState(false);
   const [sep, setSep] = useState<"," | ";">(";");
@@ -31,7 +31,8 @@ export function CsvButton({ dataset }: { dataset: string }) {
         onClick={async () => {
           setBusy(true);
           try {
-            await download(`/api/tenants/${tenantId}/export/${dataset}.csv${qs({ start: range.start, end: range.end, sep })}`, `${dataset}.csv`);
+            const base = path ?? `/api/tenants/${tenantId}/export/${dataset}.csv`;
+            await download(`${base}${qs({ start: range.start, end: range.end, sep })}`, `${dataset}.csv`);
           } finally {
             setBusy(false);
           }
@@ -47,12 +48,14 @@ export function Panel({
   title,
   subtitle,
   dataset,
+  csvPath,
   children,
   className,
 }: {
   title: string;
   subtitle?: string;
   dataset?: string;
+  csvPath?: string;
   children: ReactNode;
   className?: string;
 }) {
@@ -63,7 +66,7 @@ export function Panel({
           <h2 className="text-sm font-bold">{title}</h2>
           {subtitle ? <p className="text-xs text-muted">{subtitle}</p> : null}
         </div>
-        {dataset ? <CsvButton dataset={dataset} /> : null}
+        {dataset ? <CsvButton dataset={dataset} path={csvPath} /> : null}
       </div>
       <div>{children}</div>
     </Card>

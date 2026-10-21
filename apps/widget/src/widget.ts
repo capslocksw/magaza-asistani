@@ -269,7 +269,13 @@ export class AssistantWidget {
         break;
       case "error":
         turn.bubble.className = "msg error";
-        turn.bubble.textContent = ERROR_TEXT[event.code] ?? ERROR_TEXT.internal!;
+        if (event.code === "quota_exceeded") {
+          // The session hit its message limit: forget it so the next message starts a new conversation.
+          this.sessionId = null;
+          this.session?.removeItem(this.key("sid"));
+        }
+        turn.bubble.textContent =
+          event.code === "quota_exceeded" && event.message ? event.message : (ERROR_TEXT[event.code] ?? ERROR_TEXT.internal!);
         break;
     }
     this.scroll();
@@ -299,11 +305,16 @@ export class AssistantWidget {
     for (const p of products) {
       const price = el("div", { class: "price" });
       price.innerHTML = `${p.list_price && p.list_price > p.price ? `<span class="old">${formatTRY(p.list_price)}</span>` : ""}${formatTRY(p.price)}`;
-      const button = el("button", { class: "btn", type: "button", "data-testid": "ma-add-product", "aria-label": `${p.title} sepete ekle` }, p.in_stock ? "Sepete ekle" : "Stokta yok");
-      button.disabled = !p.in_stock;
-      button.addEventListener("click", () =>
-        this.addToCart([{ sku: p.sku, title: p.title, price: p.price, qty: 1, image_url: p.image_url, url: p.url }], button, null),
-      );
+      const canAdd = this.config?.actions.add_to_cart !== false;
+      const button = canAdd
+        ? el("button", { class: "btn", type: "button", "data-testid": "ma-add-product", "aria-label": `${p.title} sepete ekle` }, p.in_stock ? "Sepete ekle" : "Stokta yok")
+        : null;
+      if (button) {
+        button.disabled = !p.in_stock;
+        button.addEventListener("click", () =>
+          this.addToCart([{ sku: p.sku, title: p.title, price: p.price, qty: 1, image_url: p.image_url, url: p.url }], button, null),
+        );
+      }
       wrap.append(
         el(
           "div",
@@ -336,11 +347,12 @@ export class AssistantWidget {
         ),
       );
     }
-    const button = el("button", { class: "btn", type: "button", "data-testid": "ma-add-bundle" }, "Paketi sepete ekle");
-    button.addEventListener("click", () =>
+    const canAdd = this.config?.actions.add_to_cart !== false;
+    const button = canAdd ? el("button", { class: "btn", type: "button", "data-testid": "ma-add-bundle" }, "Paketi sepete ekle") : null;
+    button?.addEventListener("click", () =>
       this.addToCart(
         bundle.items.map((i) => ({ sku: i.sku, title: i.title, price: i.price, qty: i.qty, image_url: i.image_url, url: i.url })),
-        button,
+        button!,
         bundle.bundle_id,
       ),
     );

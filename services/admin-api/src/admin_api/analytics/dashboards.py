@@ -88,8 +88,8 @@ class Dashboards:
           (SELECT count(*) FROM orders o JOIN visitors x ON o.v = x.v WHERE x.grp = 'control') AS control_orders,
           (SELECT {d.count_if("grp = 'assistant'")} FROM visitors) AS assistant_visitors,
           (SELECT count(*) FROM orders o JOIN visitors x ON o.v = x.v WHERE x.grp = 'assistant') AS assistant_orders,
-          (SELECT {d.count_if(f"event_type = 'product_shown' AND {d.arr_len(d.arr('skus'))} > 1")} FROM ev) AS bundles_shown,
-          (SELECT {d.count_if(f"event_type = 'add_to_cart' AND {d.arr_len(d.arr('skus'))} > 1")} FROM ev) AS bundles_accepted,
+          (SELECT {d.count_if(f"event_type = 'product_shown' AND {d.s('bundle_id')} IS NOT NULL")} FROM ev) AS bundles_shown,
+          (SELECT {d.count_if(f"event_type = 'add_to_cart' AND {d.s('bundle_id')} IS NOT NULL AND {d.arr_len(d.arr('skus'))} > 1")} FROM ev) AS bundles_accepted,
           (SELECT {d.count_if(f"event_type = 'user_message' AND {d.n('turn')} = 1")} FROM ev) AS conversations
         """
         k = (await self._rows(sql, cfg.tenant_id, period))[0]

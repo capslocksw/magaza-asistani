@@ -56,12 +56,9 @@ class TenantRegistry:
         return config
 
     async def delete(self, tenant_id: str) -> None:
-        # Sub-collections must be removed explicitly in Firestore.
-        doc = self._col.document(tenant_id)
-        async for sub in doc.collections():
-            async for d in sub.stream():
-                await d.reference.delete()
-        await doc.delete()
+        # Firestore does not cascade: delete the document and every nested sub-collection
+        # (sessions/*/events hold raw conversation text).
+        await self.db.recursive_delete(self._col.document(tenant_id))
 
 
 class PersonaTemplateRepo:

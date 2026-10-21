@@ -102,4 +102,27 @@ describe.skipIf(!HAS_DATA)("AssistantWidget", () => {
     await widget.send("merhaba");
     expect(host.shadowRoot!.querySelector(".msg.error")!.textContent).toContain("Çok hızlı");
   });
+
+  it("hides cart buttons when the tenant disables the add_to_cart action", async () => {
+    const events = buildScenario(tenants.get("pk_test_yapimarket")!, "Kornişim koptu, matkabım yok");
+    const { widget, host } = mount({ ...CONFIG, actions: { add_to_cart: false, quote_request: false } }, events);
+    await widget.init();
+    widget.open();
+    await widget.send("Kornişim koptu, matkabım yok");
+    const root = host.shadowRoot!;
+    expect(root.querySelector('[data-testid="ma-bundle"]')).not.toBeNull();
+    expect(root.querySelector('[data-testid="ma-add-bundle"]')).toBeNull();
+    expect(root.querySelector('[data-testid="ma-add-product"]')).toBeNull();
+  });
+
+  it("starts a new session after the per-session quota is reached", async () => {
+    window.sessionStorage.setItem("ma_sid:pk_test_yapimarket", "s_full_session_1");
+    const message = "Bu sohbetin mesaj sınırına ulaşıldı; yeni bir sohbet başlatın.";
+    const { widget, host } = mount(CONFIG, [{ type: "error", code: "quota_exceeded", message }]);
+    await widget.init();
+    widget.open();
+    await widget.send("merhaba");
+    expect(host.shadowRoot!.querySelector(".msg.error")!.textContent).toBe(message);
+    expect(window.sessionStorage.getItem("ma_sid:pk_test_yapimarket")).toBeNull();
+  });
 });

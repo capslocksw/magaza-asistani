@@ -61,7 +61,7 @@ export function UsagePage() {
       <Panel title="Aylık kullanım" dataset="kullanim">
         {option ? <EChart option={option} label="Aylık kullanım ve maliyet grafiği" /> : null}
       </Panel>
-      <Panel title="Faturalama: tenant / ay" subtitle="Erişiminiz olan tüm tenant'lar" dataset="kullanim">
+      <Panel title="Faturalama: tenant / ay" subtitle="Erişiminiz olan tüm tenant'lar" dataset="faturalama" csvPath="/api/export/faturalama.csv">
         {billing.data ? <DataTable data={billing.data.rows} columns={columns} dense /> : <Spinner />}
       </Panel>
     </div>

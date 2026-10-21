@@ -11,6 +11,17 @@ import { dateTime } from "@/lib/format";
 import { useFilters } from "@/lib/state";
 import type { ConversationEvent, ConversationItem } from "@/lib/types";
 
+const EVENT_LABELS: Record<string, string> = {
+  visit: "Ziyaret",
+  widget_open: "Widget açıldı",
+  tool_call: "Araç çağrısı",
+  product_shown: "Ürün gösterildi",
+  add_to_cart: "Sepete eklendi",
+  quote_request: "Teklif talebi",
+  order: "Sipariş",
+  feedback: "Geri bildirim",
+};
+
 const columns: ColumnDef<ConversationItem, unknown>[] = [
   { header: "Başlangıç", accessorKey: "started", cell: (c) => <span className="whitespace-nowrap text-muted">{dateTime(c.getValue() as string)}</span> },
   { header: "Konu", accessorKey: "topic_label", cell: (c) => <Badge tone="primary">{c.getValue() as string}</Badge> },
@@ -70,7 +81,7 @@ function ConversationDetail({ sessionId, onClose }: { sessionId: string | null; 
                 );
               return (
                 <p key={i} className="text-center text-xs text-muted">
-                  {dateTime(e.ts)} · {e.event_type}
+                  {dateTime(e.ts)} · {EVENT_LABELS[e.event_type] ?? e.event_type}
                   {Array.isArray(p.skus) ? ` · ${(p.skus as string[]).join(", ")}` : ""}
                   {p.rating ? ` · ${String(p.rating) === "up" ? "beğendi" : "beğenmedi"}` : ""}
                 </p>

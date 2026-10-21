@@ -20,3 +20,10 @@ Her madde: durum (bekliyor / çözüldü / bilgi), bağlam, şimdilik ne yapıld
 
 ## 5. Üretimde PDF — **bilgi**
 - Aylık rapor ve föy PDF'leri üretimde WeasyPrint ile basılacak (Linux imajında Pango/GTK paketleri gerekir). Windows geliştirme makinesinde WeasyPrint yerel kütüphaneleri olmadığından headless Chromium yedeği kullanılıyor (ADR 003).
+
+## 6. Yönetim paneli girişi (Firebase Auth) — **bekliyor**
+- admin-api üretimde Firebase ID token doğrular (rol ve tenant listesi custom claim'lerden: `role`, `tenants`). admin-web'de e-posta/şifre formu yer tutucu; Firebase Web SDK yapılandırması (apiKey, authDomain, proje) ve claim atama süreci insan kararı gerektiriyor.
+- Şimdilik: yerelde `DEV_AUTH_BYPASS=1` ile "Geliştirici olarak giriş" (Cloud Run'da `K_SERVICE` varken bypass kapalı).
+
+## 7. BigQuery analitik tablosu — **bekliyor**
+- Prod'da Cloud Logging → BigQuery sink'i ve `BIGQUERY_EVENTS_TABLE` (proje.dataset.analytics_events) kurulmalı; BigQuery lehçesi yalnızca SQL üretimi düzeyinde test edildi (ADR 006).

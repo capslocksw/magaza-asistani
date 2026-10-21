@@ -28,7 +28,6 @@ from magaza_core.llm_config import load_llm_config
 
 from .demo_data import build_tenant
 
-MODEL = "gemini-3.8-flash"
 COLUMNS = (
     "event_id VARCHAR, event_type VARCHAR, tenant_id VARCHAR, session_id VARCHAR, visitor_id_hash VARCHAR, "
     "ts TIMESTAMP, model VARCHAR, tokens_in BIGINT, tokens_out BIGINT, latency_ms BIGINT, cost_usd_est DOUBLE, "
@@ -199,7 +198,7 @@ def _pick_topic(rng: random.Random, profile: Profile, progress: float) -> str:
 
 
 def simulate_tenant(
-    w: Writer, tenant_id: str, products: list[Product], days: int, end: date, rng: random.Random
+    w: Writer, tenant_id: str, products: list[Product], days: int, end: date, rng: random.Random, model: str
 ) -> None:
     p = PROFILES[tenant_id]
     in_stock = [x for x in products if x.stock > 0]
@@ -315,7 +314,7 @@ def simulate_tenant(
                                 "out_of_stock_sku": oos_sku,
                                 "topic": None if unmet else topic,
                             },
-                            model=MODEL,
+                            model=model,
                             tokens_in=tin,
                             tokens_out=tout,
                             latency_ms=latency,
@@ -412,7 +411,15 @@ def generate(out: Path, days: int = 90, seed: int = 7, end: date | None = None) 
         with jsonl.open("w", encoding="utf-8") as fh:
             writer = Writer(fh, cfg.estimate_cost_usd)
             for tenant_id in PROFILES:
-                simulate_tenant(writer, tenant_id, build_tenant(tenant_id).products, days, end, rng)
+                simulate_tenant(
+                    writer,
+                    tenant_id,
+                    build_tenant(tenant_id).products,
+                    days,
+                    end,
+                    rng,
+                    cfg.chat.default_model,
+                )
         if out.exists():
             out.unlink()
         con = duckdb.connect(str(out))

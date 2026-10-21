@@ -40,14 +40,18 @@ class DuckDbAnalyticsRepository(AnalyticsRepository):
     def __init__(self, path: str, live_jsonl: str | None = None) -> None:
         self.path = path
         self.live_jsonl = live_jsonl
+
+    @property
+    def dialect(self) -> Dialect:  # type: ignore[override]
+        """Decided per query: the live JSONL appears only after the first local chat."""
         source = "analytics_events"
-        if live_jsonl and Path(live_jsonl).exists() and Path(live_jsonl).stat().st_size > 0:
-            live = Path(live_jsonl).as_posix()
+        live = Path(self.live_jsonl) if self.live_jsonl else None
+        if live and live.exists() and live.stat().st_size > 0:
             source = (
                 f"(SELECT * FROM analytics_events UNION ALL SELECT * FROM "
-                f"read_json('{live}', format='newline_delimited', columns={_COLUMNS}))"
+                f"read_json('{live.as_posix()}', format='newline_delimited', columns={_COLUMNS}))"
             )
-        self.dialect = DuckDbDialect(source)
+        return DuckDbDialect(source)
 
     def _run(self, sql: str, params: dict[str, Any]) -> list[dict[str, Any]]:
         import duckdb

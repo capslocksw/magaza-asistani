@@ -28,7 +28,7 @@ class Deps:
     limiter: RateLimiter = field(default_factory=RateLimiter)
     llm_override: BaseLlm | None = None  # tests inject scripted models here
     _tenant_cache: dict[str, tuple[float, TenantContext | None]] = field(default_factory=dict)
-    _templates: dict[str, PersonaTemplate] = field(default_factory=dict)
+    _templates: dict[str, tuple[float, PersonaTemplate]] = field(default_factory=dict)
 
     @classmethod
     def from_env(cls, settings: Settings | None = None) -> Deps:
@@ -56,12 +56,14 @@ class Deps:
         return ctx
 
     async def persona_template(self, template_id: str) -> PersonaTemplate:
-        if template_id not in self._templates:
-            template = await PersonaTemplateRepo(self.db).get(template_id)
-            if template is None:
-                raise LookupError(f"persona template {template_id!r} not found")
-            self._templates[template_id] = template
-        return self._templates[template_id]
+        cached = self._templates.get(template_id)
+        if cached and time.monotonic() - cached[0] < self.settings.tenant_cache_ttl_s:
+            return cached[1]  # short TTL so admin edits reach running instances
+        template = await PersonaTemplateRepo(self.db).get(template_id)
+        if template is None:
+            raise LookupError(f"persona template {template_id!r} not found")
+        self._templates[template_id] = (time.monotonic(), template)
+        return template
 
     def model(self) -> str | BaseLlm:
         if self.llm_override is not None:

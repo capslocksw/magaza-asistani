@@ -7,6 +7,8 @@ import { apiGet, apiSend } from "@/lib/api";
 import { useFilters } from "@/lib/state";
 import type { PersonaTemplate, TenantConfig } from "@/lib/types";
 
+const JOB_STATUS: Record<string, string> = { queued: "Sırada", running: "Çalışıyor", succeeded: "Tamamlandı", failed: "Hata" };
+
 export function SettingsPage() {
   const { tenantId } = useFilters();
   const client = useQueryClient();
@@ -168,7 +170,11 @@ export function SettingsPage() {
                 <RefreshCw aria-hidden="true" /> Feed'i şimdi senkronla
               </Button>
               <span className="text-muted">Son senkron: {draft.catalog.last_synced_at ? new Date(draft.catalog.last_synced_at).toLocaleString("tr-TR") : "—"}</span>
-              {jobStatus.data ? <Badge tone={jobStatus.data.status === "succeeded" ? "good" : jobStatus.data.status === "failed" ? "bad" : "neutral"}>{jobStatus.data.status}</Badge> : null}
+              {jobStatus.data ? (
+                <Badge tone={jobStatus.data.status === "succeeded" ? "good" : jobStatus.data.status === "failed" ? "bad" : "neutral"}>
+                  {JOB_STATUS[jobStatus.data.status] ?? jobStatus.data.status}
+                </Badge>
+              ) : null}
             </div>
           </Panel>
         </div>

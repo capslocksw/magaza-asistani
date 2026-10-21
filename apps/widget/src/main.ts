@@ -41,11 +41,14 @@ function boot(): void {
   host.setAttribute("tenant", tenant);
   if (script?.dataset.api) host.setAttribute("api", script.dataset.api);
   const pendingOrders: Order[] = [];
+  const trackedOrders = new Set<string>(); // a confirmation page may call trackOrder more than once
   window.MagazaAsistani = {
     version: WIDGET_VERSION,
     open: (prompt) => host.widget?.open(prompt),
     close: () => host.widget?.close(),
     trackOrder: (order) => {
+      if (trackedOrders.has(order.order_id)) return;
+      trackedOrders.add(order.order_id);
       if (host.widget?.config) host.widget.trackOrder(order);
       else pendingOrders.push(order);
     },

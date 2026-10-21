@@ -261,11 +261,31 @@ def create_app(deps: AdminDeps | None = None) -> FastAPI:
             headers={"content-disposition": f'attachment; filename="{filename}"'},
         )
 
+    @app.get("/api/export/faturalama.csv")
+    async def export_billing(
+        user: User,
+        d: Deps_,
+        start: date | None = None,
+        end: date | None = None,
+        sep: Annotated[str, Query(pattern="^[,;]$")] = ",",
+    ) -> Response:
+        tenants = [t.tenant_id for t in await TenantRegistry(d.db).list() if user.can_access(t.tenant_id)]
+        p = period(start, end)
+        rows = (await Dashboards(d.analytics, _no_titles).usage(tenants, p))["rows"]
+        return Response(
+            to_csv(DATASETS["kullanim"], rows, sep),
+            media_type="text/csv; charset=utf-8",
+            headers={"content-disposition": f'attachment; filename="faturalama-{p.start}-{p.end}.csv"'},
+        )
+
     @app.get("/api/tenants/{tenant_id}/reports/monthly.pdf")
     async def monthly_report(
         ctx: Tenant, d: Deps_, month: Annotated[str, Query(pattern=r"^\d{4}-\d{2}$")]
     ) -> Response:
-        pdf = await build_report(dashboards(d, ctx), ctx.config, month)
+        try:
+            pdf = await build_report(dashboards(d, ctx), ctx.config, month)
+        except ValueError as exc:
+            raise HTTPException(422, "Geçersiz ay (YYYY-AA).") from exc
         return Response(
             pdf,
             media_type="application/pdf",

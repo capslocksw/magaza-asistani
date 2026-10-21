@@ -16,27 +16,28 @@ export function OrderConfirmation() {
     if (!raw) return;
     const parsed = JSON.parse(raw) as Order;
     setOrder(parsed);
-    // Conversion attribution: hand the order to the assistant widget (loaded async, so wait for it).
-    let attempts = 0;
+    // Conversion attribution: hand the order to the widget exactly once, also across refreshes.
+    const trackedKey = `ma-demo-tracked:${parsed.order_id}`;
+    if (window.sessionStorage.getItem(trackedKey)) {
+      setTracked(true);
+      return;
+    }
+    let done = false;
     const tryTrack = () => {
-      if (window.MagazaAsistani) {
-        window.MagazaAsistani.trackOrder(parsed);
-        setTracked(true);
-        return true;
-      }
-      return false;
+      if (done || !window.MagazaAsistani) return done;
+      done = true;
+      window.MagazaAsistani.trackOrder(parsed);
+      window.sessionStorage.setItem(trackedKey, "1");
+      setTracked(true);
+      return true;
     };
     if (tryTrack()) return;
-    const onReady = () => tryTrack();
-    window.addEventListener("ma:ready", onReady);
+    let attempts = 0;
     const id = window.setInterval(() => {
       attempts += 1;
       if (tryTrack() || attempts > 40) window.clearInterval(id);
     }, 250);
-    return () => {
-      window.removeEventListener("ma:ready", onReady);
-      window.clearInterval(id);
-    };
+    return () => window.clearInterval(id);
   }, []);
 
   if (!order) {

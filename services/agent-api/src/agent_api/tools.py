@@ -3,6 +3,7 @@ so a model can never reach another tenant's data whatever arguments it produces.
 
 from __future__ import annotations
 
+import re
 import time
 import uuid
 from collections.abc import Callable
@@ -21,6 +22,15 @@ from magaza_core.text import fold, tokens
 from .turn import TurnContext
 
 GROUNDED_KEY = "grounded_skus"
+# Anything shaped like a product code, in any case; used on top of the tenant's own sku_pattern so a
+# hallucinated code in another shape cannot slip past the grounding guardrail.
+SKU_LIKE = re.compile(r"\b[A-Za-z]{2,4}-[A-Za-z0-9]{2,5}-\d{3,6}\b")
+
+
+def drop_ungrounded(text: str, grounded: set[str]) -> str:
+    return re.sub(
+        r"\s{2,}", " ", SKU_LIKE.sub(lambda m: m.group(0) if m.group(0).upper() in grounded else "", text)
+    ).strip()
 
 
 def brief(p: Product) -> dict[str, Any]:
@@ -275,8 +285,9 @@ class ToolBox:
             total = round(sum(i.price * i.qty for i in items), 2)
             bundle = Bundle(
                 bundle_id=f"b_{uuid.uuid4().hex[:12]}",
-                title=title.strip() or "Önerilen paket",
-                rationale=rationale.strip() or "Birlikte kullanılması önerilen ürünler.",
+                title=drop_ungrounded(title, box.turn.grounded) or "Önerilen paket",
+                rationale=drop_ungrounded(rationale, box.turn.grounded)
+                or "Birlikte kullanılması önerilen ürünler.",
                 items=items,
                 total=total,
                 currency="TRY",

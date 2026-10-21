@@ -10,7 +10,7 @@ PNPM ?= pnpm
 WITH_EMU := bash scripts/with-emulator.sh
 
 help: ## List targets
-	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'
 
 setup: ## Install dependencies (uv, pnpm), Playwright browsers, Firestore emulator, demo data
 	$(UV) sync --all-packages
@@ -60,9 +60,10 @@ build: ## Build widget, both demo storefronts and admin-web
 dev: ## Firestore emulator + all services + apps
 	node scripts/dev.mjs
 
-e2e: build ## Playwright end-to-end tests; screenshots go to artifacts/screenshots/
-	@test -d data/demo || $(MAKE) data
+e2e: ## Playwright end-to-end tests; screenshots go to artifacts/screenshots/
+	@test -f data/demo/manifest.json || $(MAKE) data
 	@test -f data/analytics/fixture.duckdb || $(MAKE) fixture
+	$(MAKE) build
 	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && pnpm exec playwright test"
 
 eval: ## Run adk eval golden sets (FakeLlm unless LLM_MODE=vertex)

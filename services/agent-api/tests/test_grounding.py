@@ -60,6 +60,10 @@ def hallucinate(_req: LlmRequest) -> list[types.Part]:
     return [types.Part(text=f"Size Süper Yapıştırıcı ({FAKE_SKU}) öneririm.\nAyrıca eldiven kullanın.")]
 
 
+def hallucinate_lowercase(_req: LlmRequest) -> list[types.Part]:
+    return [types.Part(text=f"Deneyin: {FAKE_SKU.lower()} kodlu ürün.\nAyrıca eldiven kullanın.")]
+
+
 def grounded(req: LlmRequest) -> list[types.Part]:
     sku = _responses(req)["search_products"]["products"][0]["sku"]
     return [types.Part(text=f"Size montaj yapıştırıcısı ({sku}) öneririm.")]
@@ -94,3 +98,13 @@ def test_second_violation_is_stripped(seeded_project: str) -> None:
 def test_strip_skus_falls_back_when_nothing_left() -> None:
     assert strip_skus(f"Öneri: X ({FAKE_SKU})", {FAKE_SKU}) == GROUNDING_FALLBACK
     assert strip_skus(f"Merhaba\nÖneri: X ({FAKE_SKU})", {FAKE_SKU}) == "Merhaba"
+
+
+def test_sku_in_other_shape_is_also_guarded(seeded_project: str) -> None:
+    llm = ScriptedLlm().with_steps(search, hallucinate_lowercase, hallucinate_lowercase)
+    with client(seeded_project, llm) as (c, deps):
+        events = chat(c, "pk_test_yapimarket", "Montaj yapıştırıcısı lazım")
+    text = answer_text(events)
+    assert FAKE_SKU.lower() not in text.lower() and "eldiven" in text
+    agent_msg = next(e for e in deps.analytics.events if e.event_type == "agent_message")
+    assert agent_msg.payload["guardrails"] == ["grounding_redirect", "grounding_stripped"]

@@ -11,7 +11,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | M4 Widget | ✅ | widget.js 8,4 KB gzip (<60 KB); vitest 14 passed; Playwright widget 8 passed (iki vitrin × masaüstü/mobil) |
 | M5 Agent servisi | ✅ | pytest 102 passed (emulator: çapraz-tenant sızıntı, grounding, oturum servisi, CORS/teklif); Playwright widget→gerçek agent 4 passed; `make eval` 2×30 vaka PASS |
 | M6 Yönetim paneli | ✅ | 90 günlük sentetik fixture (147.722 olay); admin-api pytest 7 passed; Playwright admin 6 passed (9 sayfa + CSV + PDF indirme); ekran görüntüleri `artifacts/screenshots/m6/` |
-| M7 Kapanış | ⏳ | |
+| M7 Kapanış | ✅ | README, ADR 001–006, OPEN_QUESTIONS, manuel test rehberi; alt ajan incelemesi (14 bulgu düzeltildi); son tur `make check` ve `make e2e` 0 ile çıktı |
 
 ## M0 — Repo iskeleti ✅
 
@@ -149,5 +149,43 @@ $ E2E_SUITES=admin pnpm exec playwright test e2e/admin.spec.ts → 6 passed
 Ekran görüntüleri: artifacts/screenshots/m6/01..11-*-{desktop,mobile}.png (gözden geçirildi; rapor ayı seçicisi genişletildi)
 ```
 
+## M7 — Kapanış ✅
+
+- Belgeler: [README.md](README.md) (kurulum, `make dev`, mimari), [docs/MANUEL_TEST.md](docs/MANUEL_TEST.md) (10 manuel test senaryosu),
+  ADR'ler `docs/adr/001..006`, [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md). `make dev` (`scripts/dev.mjs`) uçtan uca doğrulandı
+  (tüm servisler ayakta, iki KICKOFF örneği doğru paketi döndürür, canlı sohbet yönetim panelinde görünür).
+- Alt ajan, tüm diff'i KICKOFF/CLAUDE.md kabul kriterlerine göre gözden geçirdi; düzeltilen doğruluk/gereksinim açıkları:
+  1. Sipariş onayında `trackOrder` iki kez sayılabiliyordu → tek seferlik koruma (vitrin + widget `order_id` tekilleştirme).
+  2. `AGENT_URL` hiçbir yere bağlı değildi → vitrin (`NEXT_PUBLIC_AGENT_URL`) ve widget (`VITE_AGENT_URL`) build'ine eşlendi.
+  3. Simülatörde model ID'si koddaydı → `config/llm.yaml`'dan okunuyor.
+  4. Widget, tenant'ın `actions.add_to_cart` ayarını yok sayıyordu → kapalıysa sepet butonları gösterilmez.
+  5. Çapraz satış kabul oranı paket olmayan önerileri de sayıyordu → yalnızca `bundle_id`'li olaylar.
+  6. Grounding yalnızca tenant SKU desenini tarıyordu → her biçimdeki SKU benzeri kodlar da denetleniyor; paket başlığı/gerekçesi temizleniyor.
+  7. Oturum mesaj kotasında widget çıkmaza giriyordu → oturum sıfırlanır, sunucu mesajı gösterilir.
+  8. Persona şablonu önbelleği süresizdi → 30 sn TTL.
+  9. Canlı JSONL olayları admin-api açıldıktan sonra oluşursa görünmüyordu → kaynak sorgu anında belirleniyor.
+  10. Faturalama tablosunun CSV'si tek tenant veriyordu → `/api/export/faturalama.csv` (erişilen tüm tenant'lar).
+  11. CLAUDE.md'deki `conversation-labeler` işi yoktu → `magaza_jobs.labeler` (+ test).
+  12. Yönetim panelinde İngilizce durum/olay adları → Türkçe etiketler.
+  13. Tenant silme alt koleksiyonları (oturum olayları) bırakıyordu → `recursive_delete`.
+  14. Geçersiz ayda PDF 500 veriyordu → 422.
+  Ayrıca `make dev`'de Windows'ta takılan uvicorn `--reload` kaldırıldı.
+- Kanıt (son tur, tüm değişikliklerden sonra):
+```
+$ make check   → EXIT=0
+  ruff: "All checks passed!" · eslint: temiz · mypy: "Success: no issues found in 55 source files" · tsc: 4 paket + e2e temiz
+  pytest: "110 passed" (emulator dahil) · vitest: contracts 26, demo-store 5, admin-web 2, widget 16 passed
+$ make e2e     → EXIT=0
+  build: "widget.js: 24.1 KB raw, 8.5 KB gzip (limit 60 KB)", dist/yapi-market, dist/ambalaj, admin-web
+  seed: {"ambalaj": {"products": 123, "doc_chunks": 105, ...}, "yapi-market": {"products": 329, "doc_chunks": 280, ...}}
+  Playwright: "26 passed (1.4m)" — admin 6, agent 4, store 8, widget 8 (masaüstü + mobil)
+```
+- Kapsam dışı kaldı ve yapılmadı: deploy, Terraform, GCP kaynağı oluşturma, `git push`, gerçek ödeme, Imagen, rapor aboneliği gönderimi.
+
 ## Kalan işler
-(her taş tamamlandıkça güncellenir)
+- Gerçek Gemini (`LLM_MODE=vertex`) ile agent smoke testleri ve `make eval` (OPEN_QUESTIONS #1; GCP projesi kararı bekliyor).
+- Vertex embedding ile yeniden indeksleme ve "katalogda yok" benzerlik eşiğinin ayarı (OPEN_QUESTIONS #4).
+- Yönetim paneli için Firebase Auth web yapılandırması ve rol/tenant claim süreci (OPEN_QUESTIONS #6).
+- Prod analitik: Cloud Logging → BigQuery sink ve `BigQueryAnalyticsRepository`'nin gerçek tabloda doğrulanması (OPEN_QUESTIONS #7).
+- Prod imajı: WeasyPrint için Pango/GTK paketleri (OPEN_QUESTIONS #5); Cloud Run servis/iş tanımları ve Terraform (bu gece kapsam dışı).
+- `adk eval` CLI ile tam uyum için tenant'a özel eval agent modülü (OPEN_QUESTIONS #3).

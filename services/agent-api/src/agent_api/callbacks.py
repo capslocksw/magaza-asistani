@@ -15,7 +15,7 @@ from google.genai import types
 from magaza_core.contracts import ErrorEvent
 from magaza_core.repo import UsageRepo
 
-from .tools import GROUNDED_KEY
+from .tools import GROUNDED_KEY, SKU_LIKE
 from .turn import TurnContext
 
 GROUNDING_FALLBACK = (
@@ -34,7 +34,8 @@ def response_text(response: LlmResponse) -> str:
 
 
 def strip_skus(text: str, unknown: set[str]) -> str:
-    kept = [line for line in text.splitlines() if not any(sku in line for sku in unknown)]
+    lowered = {sku.lower() for sku in unknown}
+    kept = [line for line in text.splitlines() if not any(sku in line.lower() for sku in lowered)]
     cleaned = "\n".join(kept).strip()
     return cleaned or GROUNDING_FALLBACK
 
@@ -117,7 +118,7 @@ class TurnCallbacks:
         if llm_response.partial or llm_response.get_function_calls():
             return None
         text = response_text(llm_response)
-        mentioned = set(self.sku_pattern.findall(text))
+        mentioned = set(self.sku_pattern.findall(text)) | {m.upper() for m in SKU_LIKE.findall(text)}
         if not mentioned:
             return None
         state_grounded: Any = callback_context.state.get(GROUNDED_KEY, [])

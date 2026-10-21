@@ -106,6 +106,16 @@ def test_http_dashboards_csv_and_pdf(seeded_project: str, fixture_db: str) -> No
         except Exception as exc:  # pragma: no cover - no PDF backend
             pytest.skip(f"PDF backend unavailable: {exc}")
         assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF")
+        assert (
+            c.get("/api/tenants/ambalaj/reports/monthly.pdf", params={"month": "2026-13"}).status_code == 422
+        )
+
+        billing = c.get("/api/export/faturalama.csv", params={"sep": ","}).content.decode("utf-8-sig")
+        assert (
+            billing.splitlines()[0].startswith("Tenant,Ay,Konuşma")
+            and "ambalaj" in billing
+            and "yapi-market" in billing
+        )
 
 
 @pytest.mark.emulator

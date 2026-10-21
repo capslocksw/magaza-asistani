@@ -101,6 +101,8 @@ def _logo(cfg: TenantConfig) -> str:
 
 def month_period(month: str) -> Period:
     year, mon = (int(x) for x in month.split("-"))
+    if not 1 <= mon <= 12:
+        raise ValueError(f"invalid month: {month}")
     return Period(date(year, mon, 1), date(year, mon, calendar.monthrange(year, mon)[1]))
 
 
