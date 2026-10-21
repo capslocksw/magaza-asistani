@@ -182,6 +182,12 @@ $ make e2e     → EXIT=0
 ```
 - Kapsam dışı kaldı ve yapılmadı: deploy, Terraform, GCP kaynağı oluşturma, `git push`, gerçek ödeme, Imagen, rapor aboneliği gönderimi.
 
+## Release 1 ✅
+
+- Sürüm dokümanı: [docs/RELEASE_1.md](docs/RELEASE_1.md) (kapsam, 14 kapanış düzeltmesi, mimari/uyumluluk, test durumu, Release 2 yol haritası, riskler).
+- Manuel test senaryoları TC-01 – TC-10 ([docs/MANUEL_TEST.md](docs/MANUEL_TEST.md)) kullanıcı tarafından yerelde yürütüldü ve başarılı raporlandı.
+- Release 1 doğrulaması (commit `38489fe`): `make check` exit 0 (pytest 110/110, vitest 49/49), `make e2e` exit 0 (Playwright 26/26).
+
 ## Kalan işler
 - Gerçek Gemini (`LLM_MODE=vertex`) ile agent smoke testleri ve `make eval` (OPEN_QUESTIONS #1; GCP projesi kararı bekliyor).
 - Vertex embedding ile yeniden indeksleme ve "katalogda yok" benzerlik eşiğinin ayarı (OPEN_QUESTIONS #4).
