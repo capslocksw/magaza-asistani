@@ -30,6 +30,7 @@ lint: ## ruff + eslint
 typecheck: ## mypy + tsc
 	$(UV) run mypy
 	$(PNPM) -r run typecheck
+	$(PNPM) exec tsc -p tsconfig.e2e.json
 
 test: test-py test-js ## Unit tests (pytest against the Firestore emulator, vitest)
 

@@ -37,3 +37,8 @@ firebase-debug.log*
 firestore-debug.log*
 ui-debug.log*
 .firebase/
+apps/demo-store/public/images/
+apps/demo-store/public/docs/
+apps/demo-store/public/feed.xml
+apps/demo-store/public/logo.svg
+apps/demo-store/public/search-index.json

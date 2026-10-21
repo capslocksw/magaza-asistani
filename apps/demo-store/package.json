@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/prepare-brand.mjs && next dev -p 3101",
+    "build": "node scripts/build-all.mjs yapi-market",
     "build:all": "node scripts/build-all.mjs",
     "serve": "node scripts/serve.mjs",
     "typecheck": "tsc -p tsconfig.json",

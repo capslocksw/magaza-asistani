@@ -7,7 +7,7 @@ Kaynak görev: [docs/KICKOFF.md](docs/KICKOFF.md). Açık sorular: [docs/OPEN_QU
 | M0 Repo iskeleti | ✅ | `make setup` → exit 0; `make check` → ruff/eslint/mypy/tsc temiz, pytest 4 passed, vitest 4 dosya passed |
 | M1 Sözleşmeler | ✅ | `make contracts` 42 tip üretir; vitest 26 + pytest 38 sözleşme testi; tsc + mypy temiz |
 | M2 Demo veri | ✅ | `make data` → yapi-market 329 SKU/40 föy, ambalaj 123 SKU/15 föy (PDF); veri doğrulama testi 26 passed |
-| M3 Demo vitrin | ⏳ | |
+| M3 Demo vitrin | ✅ | Playwright 8 passed (2 marka × masaüstü/mobil); Lighthouse a11y 95–100; ekran görüntüleri `artifacts/screenshots/m3/` |
 | M4 Widget | ⏳ | |
 | M5 Agent servisi | ⏳ | |
 | M6 Yönetim paneli | ⏳ | |
@@ -66,6 +66,25 @@ ambalaj: 123 products, 8 categories, 15 data sheets, 15 PDFs
 $ uv run pytest -q services/jobs   → 26 passed
   (şemaya uygunluk [jsonschema + pydantic], SKU tekilliği, tamamlayıcı referans bütünlüğü, kural hedefleri,
    föy sayıları, determinizm, feed gidiş-dönüş, gerçek marka yok, KICKOFF senaryoları, PDF render)
+```
+
+## M3 — Demo vitrin ✅
+
+- `apps/demo-store`: Next.js 15 static export + Tailwind 4 + shadcn tarzı bileşenler (Button/Badge/Sheet/Input, Radix Dialog). `BRAND=yapi-market|ambalaj` → iki ayrı build: `pnpm --filter @magaza/demo-store build:all` → `dist/yapi-market`, `dist/ambalaj`.
+- Sayfalar: ana sayfa (hero, kampanya bantları, güven rozetleri, kategori vitrini, çok satanlar, fırsatlar), kategori listesi (alt kategori/marka/fiyat/stok filtresi, 5 sıralama, 24'lük sayfalama), arama (Türkçe karakter katlamalı istemci araması, sıfır sonuçta "asistana sor"), ürün detay (galeri, taksit/kargo/stok rozetleri, teknik özellik tablosu, föy PDF bağlantısı, "Birlikte iyi gider" tamamlayıcıları, benzer ürünler), sağdan açılan sepet (ücretsiz kargo ilerleme çubuğu), sahte ödeme (kart bilgisi alınmaz) + sipariş onayı (`MagazaAsistani.trackOrder(order)` çağırır), `feed.xml`.
+- Tema: marka başına CSS değişkenleri (`--brand-strong` beyaz metinle AA kontrast), `₺1.234,90` biçimi `@magaza/contracts.formatTRY`.
+- Widget gömme: tek `<script data-tenant="pk_..." data-api=...>`; vitrin `ma:add-to-cart` olayını dinleyip kendi sepetine ekler.
+- Tasarım gözden geçirme sonrası düzeltmeler: ürün kartında görsel/başlık bağlantı çakışması, ambalaj için kahverengi yerine koyu petrol üst bar/altbilgi (`--chrome`), sepet rozetinin "Sepetim" yazısına binmesi, alt bilgi ve kampanya metni kontrastı, kategori sayfasında başlık sırası.
+- Kanıt:
+```
+$ E2E_SUITES=store pnpm exec playwright test e2e/store.spec.ts → 8 passed (16.7s)
+  [desktop|mobile] × [yapi-market|ambalaj]: gez → kategori/sırala → ara → ürün → sepete ekle → ödeme → onay
+  + föy PDF bağlantısı (application/pdf) ve feed.xml (g: ad alanı)
+Ekran görüntüleri: artifacts/screenshots/m3/{yapi-market,ambalaj}-0{1..7}-*-{desktop,mobile}.png
+Lighthouse erişilebilirlik (lighthouse 12.8.2, Playwright Chromium): yapi-market / 96, /kategori/boya/ 98,
+  /urun/YM-YAP-0001/ 100, /odeme/ 100; ambalaj / 96, /kategori/koli-cift-oluklu/ 95, /urun/KC-COK-0009/ 97
+  (kalan kontrast/başlık uyarıları sonradan düzeltildi; JSON: artifacts/lighthouse/)
+vitest apps/demo-store → 5 passed (arama, sıralama, filtre, fiyat yardımcıları)
 ```
 
 ## Kalan işler
