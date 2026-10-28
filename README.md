@@ -39,12 +39,15 @@ Adım adım manuel test senaryoları: [docs/MANUEL_TEST.md](docs/MANUEL_TEST.md)
 | `make dev` | Firestore emulator + seed + tüm servisler + uygulamalar (`scripts/dev.mjs`) |
 | `make check` | ruff (lint+format), eslint, mypy, tsc, pytest (emulator altında), vitest |
 | `make e2e` | build + seed + Playwright (vitrin, widget, gerçek agent, yönetim paneli); ekran görüntüleri `artifacts/screenshots/` |
-| `make eval` | altın setler (`services/agent-api/evals/*.evalset.json`, ADK EvalSet formatı) |
+| `make eval` | altın setler (`services/agent-api/evals/*.evalset.json`, ADK EvalSet formatı); gerçek model `--confirm-spend` ister |
+| `make budget` | gerçek model harcaması / 5 $ sınır (`.local/llm-spend.sqlite`) |
 | `make contracts` | JSON Schema → TS tipleri + Pydantic modeller |
 | `make data` / `make fixture` / `make seed` | demo katalog+föy+feed / 90 günlük analitik fixture / emulator'e yükleme |
 
 `LLM_MODE=fake` (varsayılan) deterministik `FakeLlm` kullanır. Gerçek Gemini için `LLM_MODE=vertex`, `GOOGLE_CLOUD_PROJECT`
 ve Application Default Credentials gerekir; model ID'si ve birim fiyatlar `config/llm.yaml`'dadır (kodda sabit değil).
+Ücretli her istek önce harcama defterine ayrılır; toplam **5 $** sert sınırdır (ADR 007, `make budget`). Kurulum:
+[docs/GEMINI_KURULUM.md](docs/GEMINI_KURULUM.md).
 
 ## Mimari
 
@@ -75,7 +78,7 @@ sektöre özel kod dalı yok — persona şablonu, konu taksonomisi ve tamamlay�
 
 ## Testler
 
-- `make check`: 108 pytest (emulator dahil: çapraz-tenant sızıntı, grounding, oturum servisi, API/CORS, panolar, veri
+- `make check`: 123 pytest (emulator dahil: çapraz-tenant sızıntı, grounding, harcama koruması, oturum servisi, API/CORS, panolar, veri
   doğrulama), vitest (sözleşmeler, widget, vitrin, admin).
 - `make e2e`: vitrin akışı (gez → sepet → ödeme → onay), widget (mock-agent ve gerçek agent), yönetim paneli
   (her pano, CSV ve PDF indirme), masaüstü + mobil.

@@ -3,11 +3,14 @@ SHELL := /bin/bash
 export PYTHONUTF8 := 1
 export PYTHONIOENCODING := utf-8
 .DEFAULT_GOAL := help
-.PHONY: help setup dev check lint typecheck test test-py test-js e2e eval contracts data fixture seed build clean
+.PHONY: help setup dev check lint typecheck test test-py test-js e2e eval budget contracts data fixture seed build clean
 
 UV ?= uv
 PNPM ?= pnpm
 WITH_EMU := bash scripts/with-emulator.sh
+# Tests and e2e never reach paid APIs, whatever the calling shell exports (ADR 007).
+LOCAL_MODELS := LLM_MODE=fake EMBEDDING_MODE=fake
+EVAL_ARGS ?=
 
 help: ## List targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'
@@ -35,7 +38,7 @@ typecheck: ## mypy + tsc
 test: test-py test-js ## Unit tests (pytest against the Firestore emulator, vitest)
 
 test-py:
-	$(WITH_EMU) uv run pytest -q
+	$(LOCAL_MODELS) $(WITH_EMU) uv run pytest -q
 
 test-js:
 	$(PNPM) -r run test
@@ -64,10 +67,13 @@ e2e: ## Playwright end-to-end tests; screenshots go to artifacts/screenshots/
 	@test -f data/demo/manifest.json || $(MAKE) data
 	@test -f data/analytics/fixture.duckdb || $(MAKE) fixture
 	$(MAKE) build
-	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && pnpm exec playwright test"
+	$(LOCAL_MODELS) $(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && pnpm exec playwright test"
 
-eval: ## Run adk eval golden sets (FakeLlm unless LLM_MODE=vertex)
-	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && uv run --no-sync python services/agent-api/evals/run_evals.py"
+eval: ## Run adk eval golden sets (FakeLlm; paid Gemini needs LLM_MODE=vertex + EVAL_ARGS="--confirm-spend --limit N")
+	$(WITH_EMU) "uv run --no-sync python -m magaza_jobs.seed --data data/demo && uv run --no-sync python services/agent-api/evals/run_evals.py $(EVAL_ARGS)"
+
+budget: ## Show real-model spend against the hard cap (config/llm.yaml budget)
+	$(UV) run --no-sync python -m magaza_core.budget
 
 clean: ## Remove build outputs
 	rm -rf apps/*/dist apps/demo-store/out apps/demo-store/.next playwright-report test-results

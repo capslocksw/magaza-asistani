@@ -133,6 +133,7 @@ class ErrorEvent(BaseModel):
         "unknown_tenant",
         "rate_limited",
         "quota_exceeded",
+        "budget_exceeded",
         "internal",
     ]
     message: str

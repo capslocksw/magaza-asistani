@@ -10,8 +10,9 @@ import asyncio
 import hashlib
 import math
 import os
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol
 
+from magaza_core.budget import BudgetGuard, get_budget_guard
 from magaza_core.llm_config import load_llm_config
 from magaza_core.text import tokens
 
@@ -61,32 +62,51 @@ class HashingEmbedder:
 
 
 class VertexEmbedder:
-    """Gemini embeddings on Vertex AI (model + dimension from config/llm.yaml)."""
+    """Gemini embeddings on Vertex AI (model + dimension from config/llm.yaml), every request behind the spend guard."""
 
-    def __init__(self, project: str, location: str) -> None:
-        from google import genai
-
+    def __init__(self, project: str, location: str, guard: BudgetGuard, client: Any | None = None) -> None:
         cfg = load_llm_config().embedding
         self.name = cfg.model
         self.dim = cfg.dimension
         self._batch = max(1, cfg.batch_size)
         self._sem = asyncio.Semaphore(cfg.concurrency)
         self.min_similarity = cfg.min_similarity
-        self._client = genai.Client(vertexai=True, project=project, location=location)
+        self._guard = guard
+        if client is None:
+            from google import genai
+
+            client = genai.Client(vertexai=True, project=project, location=location)
+        self._client: Any = client  # genai.Client, or a fake in tests
 
     async def _embed_batch(self, batch: list[str], task: Task) -> list[list[float]]:
-        from google.genai import types
+        from google.genai import errors, types
 
-        async with self._sem:
-            res = await self._client.aio.models.embed_content(
-                model=self.name,
-                contents=batch,  # type: ignore[arg-type]
-                config=types.EmbedContentConfig(
-                    output_dimensionality=self.dim,
-                    task_type="RETRIEVAL_QUERY" if task == "query" else "RETRIEVAL_DOCUMENT",
-                ),
+        async with self._sem:  # reserve only when the request is about to be sent
+            reservation = self._guard.reserve(
+                self.name, "embedding", sum(self._guard.estimate_tokens(len(t)) for t in batch), 0
             )
-        return [_normalize(list(e.values or [])) for e in res.embeddings or []]
+            try:
+                res = await self._client.aio.models.embed_content(
+                    model=self.name,
+                    contents=batch,
+                    config=types.EmbedContentConfig(
+                        output_dimensionality=self.dim,
+                        task_type="RETRIEVAL_QUERY" if task == "query" else "RETRIEVAL_DOCUMENT",
+                    ),
+                )
+            except errors.ClientError:
+                self._guard.release(reservation)  # rejected requests are not billed
+                raise
+            except BaseException:
+                self._guard.settle_estimate(reservation)
+                raise
+        embeddings = res.embeddings or []
+        counts = [e.statistics.token_count if e.statistics else None for e in embeddings]
+        if embeddings and all(c is not None for c in counts):
+            self._guard.settle(reservation, int(sum(c or 0 for c in counts)), 0)
+        else:
+            self._guard.settle_estimate(reservation)
+        return [_normalize(list(e.values or [])) for e in embeddings]
 
     async def embed(self, texts: list[str], task: Task) -> list[list[float]]:
         batches = [texts[i : i + self._batch] for i in range(0, len(texts), self._batch)]
@@ -95,12 +115,17 @@ class VertexEmbedder:
 
 
 def get_embedder() -> Embedder:
-    mode = os.environ.get("EMBEDDING_MODE") or (
-        "vertex" if os.environ.get("LLM_MODE") == "vertex" else "fake"
-    )
+    """EMBEDDING_MODE=vertex opts into paid Vertex embeddings. LLM_MODE does not switch it on: seeding and feed-sync
+    would silently re-embed the whole catalog on every start (and hashing vectors must not be mixed with Vertex ones).
+    """
+    mode = os.environ.get("EMBEDDING_MODE") or "fake"
     if mode == "vertex":
         cfg = load_llm_config()
         return VertexEmbedder(
-            os.environ["GOOGLE_CLOUD_PROJECT"], os.environ.get("GOOGLE_CLOUD_LOCATION", cfg.region)
+            os.environ["GOOGLE_CLOUD_PROJECT"],
+            os.environ.get("GOOGLE_CLOUD_LOCATION", cfg.region),
+            get_budget_guard(),
         )
+    if mode != "fake":
+        raise ValueError(f"EMBEDDING_MODE must be 'fake' or 'vertex', got {mode!r}")
     return HashingEmbedder(load_llm_config().embedding.dimension)

@@ -8,7 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class PricePeriod(BaseModel):
@@ -31,11 +31,21 @@ class EmbeddingModelConfig(BaseModel):
     min_similarity: float = 0.0
 
 
+class BudgetConfig(BaseModel):
+    """Hard cap on real model spend (ADR 007); required so a config without it fails closed."""
+
+    hard_cap_usd: float = Field(gt=0)
+    safety_margin_usd: float = Field(ge=0)
+    max_output_tokens: int = Field(gt=0)
+    chars_per_token: float = Field(gt=0)
+
+
 class LlmConfig(BaseModel):
     region: str
     chat: ChatModelConfig
     embedding: EmbeddingModelConfig
     pricing_usd_per_1m_tokens: dict[str, list[PricePeriod]]
+    budget: BudgetConfig
 
     def price(self, model: str, when: datetime | date | None = None) -> PricePeriod | None:
         periods = self.pricing_usd_per_1m_tokens.get(model)
@@ -65,6 +75,11 @@ def _default_path() -> Path:
         if candidate.exists():
             return candidate
     return Path("config/llm.yaml")
+
+
+def repo_root() -> Path:
+    """Directory that holds config/llm.yaml (local state such as the spend ledger lives under its .local/)."""
+    return _default_path().resolve().parent.parent
 
 
 @lru_cache(maxsize=4)

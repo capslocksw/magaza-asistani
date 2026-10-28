@@ -143,7 +143,7 @@
       "required": ["type", "code", "message"],
       "properties": {
         "type": { "const": "error" },
-        "code": { "enum": ["invalid_request", "origin_not_allowed", "unknown_tenant", "rate_limited", "quota_exceeded", "internal"] },
+        "code": { "enum": ["invalid_request", "origin_not_allowed", "unknown_tenant", "rate_limited", "quota_exceeded", "budget_exceeded", "internal"] },
         "message": { "type": "string" }
       }
     },
