@@ -11,6 +11,7 @@ const env = {
   FIRESTORE_EMULATOR_HOST: process.env.FIRESTORE_EMULATOR_HOST ?? "127.0.0.1:8085",
   FIRESTORE_PROJECT_ID: process.env.FIRESTORE_PROJECT_ID ?? "demo-magaza",
   LLM_MODE: process.env.LLM_MODE ?? "fake",
+  EMBEDDING_MODE: process.env.EMBEDDING_MODE ?? "fake",
   DEV_AUTH_BYPASS: process.env.DEV_AUTH_BYPASS ?? "1",
   ANALYTICS_JSONL_PATH: LIVE_EVENTS,
   ANALYTICS_LIVE_JSONL: LIVE_EVENTS,
@@ -68,6 +69,12 @@ if (!(await portOpen(8085))) {
   await waitFor(8085);
 }
 step("uv", ["run", "--no-sync", "python", "-m", "magaza_jobs.seed", "--data", "data/demo"]);
+if (env.LLM_MODE !== "fake" || env.EMBEDDING_MODE !== "fake") {
+  // Paid Gemini: every request goes through the spend guard (config/llm.yaml budget, ADR 007).
+  console.log(`
+  LLM_MODE=${env.LLM_MODE} EMBEDDING_MODE=${env.EMBEDDING_MODE} -> gerçek (ücretli) model; harcama durumu:`);
+  step("uv", ["run", "--no-sync", "python", "-m", "magaza_core.budget"]);
+}
 
 // No --reload: uvicorn's reloader hangs on Windows; restart `make dev` after Python changes.
 run("agent-api", "uv", ["run", "--no-sync", "uvicorn", "agent_api.main:app", "--port", "8080"]);

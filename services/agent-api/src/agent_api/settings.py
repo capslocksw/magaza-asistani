@@ -27,6 +27,8 @@ class Settings:
 
     def configure_vertex_env(self) -> None:
         """ADK's Gemini client reads these variables when LLM_MODE=vertex."""
+        if self.llm_mode not in ("fake", "vertex"):
+            raise ValueError(f"LLM_MODE must be 'fake' or 'vertex', got {self.llm_mode!r}")
         if self.llm_mode != "vertex":
             return
         if not self.google_cloud_project:

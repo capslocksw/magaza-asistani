@@ -4,6 +4,8 @@
 #   - https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-3-8-flash  (use thinking_level, not temperature)
 #   - https://docs.cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-text-embeddings  (gemini-embedding-001, output_dimensionality)
 #   - https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing  (Gemini 3.8 Flash pricing)
+# Verified 2026-10-28:
+#   - https://docs.cloud.google.com/vertex-ai/generative-ai/pricing  (Gemini Embedding: $0.00015 / 1K input tokens, online)
 
 region: europe-west1
 
@@ -32,6 +34,12 @@ pricing_usd_per_1m_tokens:
     - until: null
       input: 1.65   # 1.5 global * 1.1 regional (standard 2027 price)
       output: 8.25  # 7.5 global * 1.1 regional
+  # $0.15 / 1M input tokens (global, online) + 10% regional. Output is free. Re-check against the billing
+  # report after the first real re-index: a higher real price only makes the spend guard stricter if raised here.
+  gemini-embedding-001:
+    - until: null
+      input: 0.165
+      output: 0
   # Local stand-ins: no cost.
   fake-llm:
     - until: null
@@ -41,3 +49,15 @@ pricing_usd_per_1m_tokens:
     - until: null
       input: 0
       output: 0
+
+# Hard spending cap for real (paid) model calls — ADR 007. Every Vertex request (chat and embeddings) reserves its
+# worst-case cost in a ledger shared by all local processes (.local/llm-spend.sqlite) before it is sent; a request that
+# would push spent + in-flight past hard_cap_usd - safety_margin_usd is refused and never reaches the API.
+budget:
+  hard_cap_usd: 5.00
+  # Requests stop at hard_cap - margin: room for estimate error and calls already in flight.
+  safety_margin_usd: 0.50
+  # Forced on every chat request; bounds the worst-case reservation of a single call.
+  max_output_tokens: 4096
+  # Pre-call input estimate. Deliberately low (Turkish averages ~3.5-4 chars/token) so reservations overestimate.
+  chars_per_token: 2.5

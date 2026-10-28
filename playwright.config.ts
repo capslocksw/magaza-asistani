@@ -25,7 +25,7 @@ if (suites.has("agent")) {
     command: `${PY} uvicorn agent_api.main:app --port 8080`,
     url: "http://localhost:8080/healthz",
     reuseExistingServer: true,
-    env: { LLM_MODE: "fake", ANALYTICS_JSONL_PATH: ".local/analytics/e2e-events.jsonl" },
+    env: { LLM_MODE: "fake", EMBEDDING_MODE: "fake", ANALYTICS_JSONL_PATH: ".local/analytics/e2e-events.jsonl" },
     timeout: 120_000,
   });
 }

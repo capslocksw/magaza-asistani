@@ -23,6 +23,7 @@ const ICON_SEND =
 const ERROR_TEXT: Record<string, string> = {
   rate_limited: "Çok hızlı mesaj gönderiyorsunuz; lütfen birkaç saniye sonra tekrar deneyin.",
   quota_exceeded: "Asistan şu anda yoğun; lütfen daha sonra tekrar deneyin.",
+  budget_exceeded: "Asistan şu anda yanıt veremiyor; lütfen daha sonra tekrar deneyin.",
   origin_not_allowed: "Bu sitede asistan etkin değil.",
   unknown_tenant: "Bu sitede asistan etkin değil.",
   invalid_request: "Mesajınız işlenemedi.",

@@ -2,10 +2,15 @@
 
 Her madde: durum (bekliyor / çözüldü / bilgi), bağlam, şimdilik ne yapıldı.
 
-## 1. Gerçek Gemini (Vertex AI) çağrıları — **bekliyor**
-- `GOOGLE_CLOUD_PROJECT` ortam değişkeni tanımlı değil. Makinede ADC dosyası var ancak aktif gcloud projesi bu ürünle ilgisiz bir proje; ona maliyet yazmamak için kullanılmadı.
-- Şimdilik: tüm agent testleri, eval ve uçtan uca senaryolar deterministik `FakeLlm` ile çalışıyor (`LLM_MODE=fake`).
-- Gerekli insan kararı: hangi GCP projesi (europe-west1) kullanılacak; `GOOGLE_CLOUD_PROJECT` + ADC ile `LLM_MODE=vertex make eval` çalıştırılmalı.
+## 1. Gerçek Gemini (Vertex AI) çağrıları — **kullanıcı adımı bekliyor**
+- Karar (Release 2): gerçek Gemini ile ilerlenecek; toplam harcama **5 $'ı geçmeyecek**; gerçek-model testlerini
+  yalnızca kullanıcı çalıştırır (Claude otonom gerçek-model testi yapmaz).
+- Yapıldı: sert bütçe koruması (ADR 007) — her ücretli istek gönderilmeden önce `.local/llm-spend.sqlite` defterine
+  ayrılır, 4,50 $'da (5 $ − 0,50 $ pay) istekler gönderilmez; `make budget` durumu gösterir.
+- Kullanıcı adımı: GCP projesini bağlamak ve ilk tek-soru denemesi — [docs/GEMINI_KURULUM.md](GEMINI_KURULUM.md).
+- Doğrulanacak: `gemini-embedding-001` fiyatı (0,15 $/1M global + %10 bölgesel = 0,165 $ olarak yapılandırıldı;
+  2026-09-01'de yeni embedding SKU'ları duyurulmuş). İlk gerçek kullanımdan sonra defter ile GCP fatura raporu
+  karşılaştırılmalı.
 
 ## 2. Yerel araç: GNU Make — **bilgi**
 - Windows makinesinde `make` yoktu (winget/choco/scoop da yok). `make` hedefleri kabul kriteri olduğu için MSYS2 resmi deposundan `make-4.4.1-3` paketi indirilip `C:\Users\ASUS\bin\make.exe` olarak kopyalandı (Git Bash PATH'inde). Kaldırmak için dosyayı silmek yeterli.
@@ -27,3 +32,10 @@ Her madde: durum (bekliyor / çözüldü / bilgi), bağlam, şimdilik ne yapıld
 
 ## 7. BigQuery analitik tablosu — **bekliyor**
 - Prod'da Cloud Logging → BigQuery sink'i ve `BIGQUERY_EVENTS_TABLE` (proje.dataset.analytics_events) kurulmalı; BigQuery lehçesi yalnızca SQL üretimi düzeyinde test edildi (ADR 006).
+
+## 8. Prod'da paylaşılan harcama defteri ve tenant maliyet kotaları — **bekliyor**
+- Harcama defteri (ADR 007) yerel bir SQLite dosyasıdır; Cloud Run'da her örnek kendi defterini tutacağından sınır
+  örnek sayısıyla çarpılırdı. Bu yüzden `K_SERVICE` varken koruma başlamayı reddeder (ücretli çağrı yapılmaz).
+- Deploy öncesi karar: platform düzeyinde paylaşılan defter (Firestore'da tenant dışı bir `platform/` belgesi —
+  CLAUDE.md'deki "her sorgu tenant yolu altında" kuralına istisna gerektirir — ya da Cloud SQL / Memorystore) ve
+  tenant başına aylık maliyet kotası.

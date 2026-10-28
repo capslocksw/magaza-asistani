@@ -15,6 +15,7 @@ from google.adk.agents.run_config import RunConfig
 from google.adk.runners import Runner
 from google.genai import types
 
+from magaza_core.budget import BudgetExceeded
 from magaza_core.contracts import (
     ActionEvent,
     BundleEvent,
@@ -50,6 +51,17 @@ DONT_KNOW = (
     "ayrıntı verir misiniz",
 )
 _QUOTE_HINT = re.compile(r"\b(teklif|toplu)\b|\b\d{3,}\b")
+
+
+def _budget_refusal(exc: BaseException | None) -> bool:
+    """True when the spend guard refused a paid request, even if ADK re-raised it wrapped."""
+    for _ in range(8):
+        if exc is None:
+            return False
+        if isinstance(exc, BudgetExceeded):
+            return True
+        exc = exc.__cause__ or exc.__context__
+    return False
 
 
 def chunk_text(text: str, words_per_chunk: int = 3) -> list[str]:
@@ -132,7 +144,11 @@ async def run_turn(deps: Deps, ctx: TenantContext, req: ChatRequest) -> AsyncIte
                 text = "".join(p.text for p in event.content.parts if p.text and not p.thought)
                 if text:
                     final_text = text
-    except Exception:
+    except Exception as exc:
+        if _budget_refusal(exc):
+            log.warning("paid model request refused by the spend guard: %s", exc)
+            yield ErrorEvent(type="error", code="budget_exceeded", message="Asistan şu anda yanıt veremiyor.")
+            return
         log.exception("agent turn failed")
         yield ErrorEvent(type="error", code="internal", message="Asistan şu anda yanıt veremiyor.")
         return

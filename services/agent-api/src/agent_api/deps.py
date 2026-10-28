@@ -9,6 +9,7 @@ from google.adk.models import BaseLlm
 from google.cloud.firestore import AsyncClient
 
 from magaza_core.analytics import AnalyticsEmitter
+from magaza_core.budget import BudgetGuard, get_budget_guard
 from magaza_core.contracts import PersonaTemplate
 from magaza_core.embedding import Embedder, get_embedder
 from magaza_core.repo import PersonaTemplateRepo, TenantRegistry, get_db
@@ -16,6 +17,7 @@ from magaza_core.tenancy import TenantContext
 
 from .callbacks import RateLimiter
 from .fake_llm import FakeLlm
+from .paid_llm import BudgetedGemini
 from .settings import Settings
 
 
@@ -27,6 +29,8 @@ class Deps:
     analytics: AnalyticsEmitter
     limiter: RateLimiter = field(default_factory=RateLimiter)
     llm_override: BaseLlm | None = None  # tests inject scripted models here
+    budget: BudgetGuard | None = None  # LLM_MODE=vertex: created on first use unless injected (eval run cap)
+    _paid_model: BaseLlm | None = None
     _tenant_cache: dict[str, tuple[float, TenantContext | None]] = field(default_factory=dict)
     _templates: dict[str, tuple[float, PersonaTemplate]] = field(default_factory=dict)
 
@@ -65,12 +69,16 @@ class Deps:
         self._templates[template_id] = (time.monotonic(), template)
         return template
 
-    def model(self) -> str | BaseLlm:
+    def model(self) -> BaseLlm:
         if self.llm_override is not None:
             return self.llm_override
-        return FakeLlm() if self.settings.llm_mode == "fake" else self.settings.llm.chat.default_model
+        if self.settings.llm_mode == "fake":
+            return FakeLlm()
+        if self._paid_model is None:
+            self.budget = self.budget or get_budget_guard()
+            self._paid_model = BudgetedGemini(model=self.settings.llm.chat.default_model, guard=self.budget)
+        return self._paid_model
 
     @property
     def model_name(self) -> str:
-        model = self.model()
-        return model if isinstance(model, str) else model.model
+        return self.model().model

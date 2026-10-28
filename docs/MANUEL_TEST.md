@@ -58,5 +58,5 @@ Ekran görüntüleri: `artifacts/screenshots/m3..m6/`. `make e2e` çalışan `ma
 
 ## 5. Gerçek Gemini ile (isteğe bağlı)
 
-`GOOGLE_CLOUD_PROJECT` ve ADC (`gcloud auth application-default login`) hazırsa: `LLM_MODE=vertex make dev`
-(model `gemini-3.8-flash`, `config/llm.yaml`). Bu çağrılar faturalandırılır.
+Kurulum ve ilk deneme: [GEMINI_KURULUM.md](GEMINI_KURULUM.md). Çağrılar faturalandırılır; toplam harcama
+`config/llm.yaml → budget` ile 5 $'la sınırlıdır (4,50 $'da durur), durum: `make budget`.

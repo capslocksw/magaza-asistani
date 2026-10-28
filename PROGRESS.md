@@ -188,8 +188,39 @@ $ make e2e     → EXIT=0
 - Manuel test senaryoları TC-01 – TC-10 ([docs/MANUEL_TEST.md](docs/MANUEL_TEST.md)) kullanıcı tarafından yerelde yürütüldü ve başarılı raporlandı.
 - Release 1 doğrulaması (commit `38489fe`): `make check` exit 0 (pytest 110/110, vitest 49/49), `make e2e` exit 0 (Playwright 26/26).
 
+## Release 2 — Adım 1: Gerçek Gemini için harcama koruması ✅
+
+Dal `feat/gemini-cost-guard` (PR ile `main`'e). Karar: gerçek Gemini ile ilerlenecek, toplam harcama 5 $'ı geçmeyecek,
+gerçek-model testlerini yalnızca kullanıcı çalıştıracak. Bu adımda **hiçbir gerçek model çağrısı yapılmadı**.
+
+- Sert sınır (ADR 007): `config/llm.yaml → budget` (`hard_cap_usd: 5.00`, `safety_margin_usd: 0.50`,
+  `max_output_tokens: 4096`). `magaza_core.budget`: süreçler arası paylaşılan SQLite defteri
+  (`.local/llm-spend.sqlite`), istek öncesi en kötü durum rezervasyonu, sınırı aşacak istek gönderilmez, yanıt sonrası
+  `usage_metadata` ile kapanış; 4xx serbest bırakılır, belirsiz sonuç en kötü durumla kalır; fiyatı tanımsız model
+  reddedilir; Cloud Run'da (paylaşılan defter yokken) başlamaz.
+- Tek giriş noktaları: sohbet `agent_api.paid_llm.BudgetedGemini` (ADK `Gemini` alt sınıfı), embedding
+  `VertexEmbedder`. `gemini-embedding-001` fiyatı yapılandırmaya eklendi (resmî fiyat sayfası, 2026-10-28).
+- Açık onay: ücretli embedding artık yalnızca `EMBEDDING_MODE=vertex` ile (LLM_MODE açmaz); gerçek-model eval
+  `--confirm-spend` + koşu sınırı `--run-cap-usd` (0,50 $) + `--limit N`; `make budget` durum gösterir; `make dev`
+  ücretli modda açılışta harcamayı yazdırır.
+- Testler asla harcamaz: `make check`/`make e2e` modları `fake`'e zorlar, pytest gerçek `google-genai` istemcisini
+  engeller ve geçici defter kullanır, e2e yeniden kullandığı agent-api `fake` değilse durur.
+- Sözleşme: SSE `error.code` için `budget_exceeded` (widget Türkçe mesaj gösterir).
+- Belgeler: [docs/GEMINI_KURULUM.md](docs/GEMINI_KURULUM.md) (GCP bağlama, 5 $ GCP bütçe uyarısı, ilk tek-soru denemesi),
+  [docs/adr/007-llm-spend-guard.md](docs/adr/007-llm-spend-guard.md), OPEN_QUESTIONS #1 güncellendi, #8 eklendi.
+- Kanıt:
+```
+$ make check   → EXIT=0
+  ruff: "All checks passed!" · mypy: "Success: no issues found in 57 source files" · eslint/tsc temiz
+  pytest: "123 passed" (13 yeni: defter, eşzamanlı rezervasyon, koşu sınırı, Cloud Run reddi, embedder, BudgetedGemini,
+          sohbette budget_exceeded) · vitest: contracts 26, demo-store 5, admin-web 2, widget 16 passed
+$ make e2e     → EXIT=0
+  "LLM_MODE=fake EMBEDDING_MODE=fake bash scripts/with-emulator.sh ..." · widget.js 8.5 KB gzip · Playwright "26 passed (1.2m)"
+```
+
 ## Kalan işler
-- Gerçek Gemini (`LLM_MODE=vertex`) ile agent smoke testleri ve `make eval` (OPEN_QUESTIONS #1; GCP projesi kararı bekliyor).
+- Gerçek Gemini ile ilk tek-soru denemesi ve küçük eval — **kullanıcı çalıştırır** ([docs/GEMINI_KURULUM.md](docs/GEMINI_KURULUM.md), OPEN_QUESTIONS #1).
+- Prod için paylaşılan harcama defteri ve tenant maliyet kotası (OPEN_QUESTIONS #8).
 - Vertex embedding ile yeniden indeksleme ve "katalogda yok" benzerlik eşiğinin ayarı (OPEN_QUESTIONS #4).
 - Yönetim paneli için Firebase Auth web yapılandırması ve rol/tenant claim süreci (OPEN_QUESTIONS #6).
 - Prod analitik: Cloud Logging → BigQuery sink ve `BigQueryAnalyticsRepository`'nin gerçek tabloda doğrulanması (OPEN_QUESTIONS #7).

@@ -403,6 +403,7 @@ export interface ErrorEvent {
     | "unknown_tenant"
     | "rate_limited"
     | "quota_exceeded"
+    | "budget_exceeded"
     | "internal";
   message: string;
 }

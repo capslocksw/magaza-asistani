@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from google.adk.agents import LlmAgent
 from google.adk.agents.readonly_context import ReadonlyContext
-from google.adk.models import BaseLlm
+from google.adk.models import BaseLlm, Gemini
 from google.adk.tools import FunctionTool
 from google.genai import types
 
@@ -59,7 +59,7 @@ def build_agent(
         return instruction
 
     generate_config = None
-    if isinstance(model, str) and thinking_level:
+    if thinking_level and isinstance(model, str | Gemini):
         generate_config = types.GenerateContentConfig(
             thinking_config=types.ThinkingConfig(thinking_level=thinking_level)
         )
