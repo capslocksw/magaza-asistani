@@ -17,6 +17,7 @@
 - Yeni olay/mesaj tipi önce `packages/contracts`'a eklenir, sonra `make contracts` ile tipler üretilir.
 - Agent cevabında yalnızca araçların o oturumda döndürdüğü SKU'lar geçebilir (grounding callback). Bu kuralı gevşeten değişiklik yapılmaz.
 - Gemini model adları ve birim fiyatlar kodda sabit değil, konfigürasyondadır. Model ID'sini tahmin etme; Vertex AI dokümantasyonundan doğrula.
+- IMPORTANT: Gerçek (ücretli) Gemini/Vertex çağrısı yapan komutları (`LLM_MODE=vertex`, `EMBEDDING_MODE=vertex`, gerçek-model eval/smoke) Claude kendi başına çalıştırmaz; komutu kullanıcıya verir, kullanıcı çalıştırıp çıktıyı paylaşır. `make check`/`make e2e` sahte modelde kalır. Toplam gerçek-model harcaması 5 $'ı geçmez: `config/llm.yaml → budget` ve harcama defteri (ADR 007) gevşetilmez, atlatılmaz; `make budget` durumu gösterir.
 - Gerçek marka, logo, ürün fotoğrafı veya üretici adı kullanılmaz. Demo markaları kurgusaldır.
 - Gizli bilgi (anahtar, token, service account JSON) repoya yazılmaz; `.env.local` git dışındadır.
 - Kullanıcıya görünen metinler Türkçe, kod/değişken/commit mesajları İngilizce. Fiyat biçimi: `₺1.234,90`.
@@ -30,7 +31,8 @@
 - `make contracts` — JSON Schema'dan TS ve Pydantic üretimi
 
 ## Çalışma düzeni
-- Her kilometre taşı sonunda: `make check` geçer, `PROGRESS.md` güncellenir, yerel git commit atılır (Conventional Commits). Push yapılmaz.
+- Depo: https://github.com/capslocksw/magaza-asistani (`origin`). Her iş `main`'den açılan kendi dalında (`feat/…`, `fix/…`, `docs/…`) yapılır; `main`'e doğrudan push yapılmaz.
+- Her adım sonunda: `make check` geçer, `PROGRESS.md` güncellenir, git commit atılır (Conventional Commits), dal push edilip PR açılır. PR kullanıcı onayı olmadan birleştirilmez.
 - İnsan kararı veya kimlik bilgisi gerektiren engelde: `docs/OPEN_QUESTIONS.md`'ye yaz, stub ile devam et, bekleme.
 - Önemli mimari kararlar kısa ADR olarak `docs/adr/NNN-baslik.md`.
 - Sıkıştırma (compaction) sırasında koru: tamamlanan kilometre taşları, değiştirilen dosyalar, test komutları, açık sorular.
